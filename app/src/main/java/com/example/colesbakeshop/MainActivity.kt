@@ -9,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -249,41 +250,37 @@ fun Categories() {
             horizontalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier.fillMaxWidth()
         ) {
-            CategoryItem(painter = cupcakes, text = "Cupcake")
-            CategoryItem(painter = cakes, text = "Cakes")
-            CategoryItem(painter = pastries, text = "Pastries")
+            CategoryItem( text = "Cakes")
+            CategoryItem( text = "Dessert")
+            CategoryItem( text = "Pastries")
         }
     }
 }
 
 @Composable
-fun CategoryItem(painter: Painter, text: String) {
-    val gradientBrush = Brush.verticalGradient(
-        0.0f to Color(0xFFFFFFFF),  // Start with white at 0%
-        0.6f to Color(0xFFFFFFFF),  // 70% white
-        1.0f to Color(0xFF000000)   // Transition to black at 100%
-    )
+fun CategoryItem(text: String) {
+    // Track selection state
+    var isSelected by remember { mutableStateOf(false) }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .size(120.dp)
-            .background(brush = gradientBrush, shape = RoundedCornerShape(12.dp))
+            .width(74.dp)
+            .background(
+                color = if (isSelected) Color.Black else Color.White,
+                shape = RoundedCornerShape(12.dp)
+            )
+            .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(12.dp))
             .padding(8.dp)
+            .clickable { isSelected = !isSelected } // Toggle state on click
     ) {
-        Image(
-            painter = painter,
-            contentDescription = null,
-            modifier = Modifier.size(80.dp)
-        )
         Text(
             text = text,
             style = TextStyle(
-                color = Color(0xffffffff),
-                fontSize = 14.sp,
+                color = if (isSelected) Color.White else Color(0xff000000),
+                fontSize = 12.sp,
                 fontWeight = FontWeight.Medium
             ),
-            modifier = Modifier.padding(top = 8.dp)
         )
     }
 }
