@@ -41,10 +41,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -112,43 +114,25 @@ fun WelcomeBar() {
     Box(
         modifier = Modifier
             .fillMaxWidth(0.9f)
-            .height(127.dp),
-
+            .height(127.dp)
+            .padding(top=20.dp)
+            .background(color = Color.Transparent, shape = RoundedCornerShape(8.dp))
     ) {
-        AndroidView(
-            modifier = Modifier.fillMaxSize().align(Alignment.Center),
-            factory = { context ->
-                FrameLayout(context).apply {
-                    val videoView = VideoView(context)
-                    val videoUri = Uri.parse("android.resource://" + context.packageName + "/" + R.raw.headervid)
-                    videoView.setVideoURI(videoUri)
-
-                    videoView.layoutParams = FrameLayout.LayoutParams(
-                        FrameLayout.LayoutParams.MATCH_PARENT,
-                        FrameLayout.LayoutParams.MATCH_PARENT
-                    )
-                    videoView.scaleX = 8f
-                    videoView.scaleY = 1.2f
-
-                    videoView.setOnPreparedListener { mediaPlayer ->
-                        mediaPlayer.isLooping = true
-                        mediaPlayer.setVideoScalingMode(android.media.MediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING)
-                    }
-
-                    addView(videoView)
-                    videoView.start()
-                }
-            },
-            update = { frameLayout ->
-                val videoView = frameLayout.getChildAt(0) as VideoView
-                videoView.start()
-            }
+        // Load the "carrot" drawable image as the background
+        Image(
+            painter = painterResource(id = R.drawable.carrot), // Make sure "carrot" is in res/drawable
+            contentDescription = "Background Image",
+            modifier = Modifier
+                .fillMaxSize()
+                .align(Alignment.Center)
+                .clip(RoundedCornerShape(8.dp)),
+            contentScale = ContentScale.Crop
         )
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0x66000000))
+                .background(Color(0x66000000), shape = RoundedCornerShape(8.dp))
                 .padding(16.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
