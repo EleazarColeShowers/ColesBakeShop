@@ -35,6 +35,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -56,6 +57,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.navigation.NavController
+import androidx.navigation.NavHost
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.colesbakeshop.ui.theme.ColesBakeShopTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -89,8 +95,9 @@ fun HomePage() {
         Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        val navController= rememberNavController()
         WelcomeBar()
-        Spacer(modifier = Modifier.height((-25).dp))
+        Spacer(modifier = Modifier.height((14).dp))
 
         SearchBar(
             hint = "Search for Cupcakes, Cakes ...",
@@ -103,9 +110,13 @@ fun HomePage() {
 
         )
         Spacer(modifier =Modifier.height(28.dp))
-        Categories()
+        Categories(navController)
         Spacer(modifier = Modifier.height(29.dp))
-        Recommendation()
+        NavHost(navController = navController, startDestination = "Cake") {
+            composable("Cake"){ CakePage(navController)}
+            composable("Dessert") { DessertPage(navController) }
+            composable("Pastries") {  PastriesPage(navController )}
+        }
     }
 }
 
@@ -115,10 +126,9 @@ fun WelcomeBar() {
         modifier = Modifier
             .fillMaxWidth(0.9f)
             .height(127.dp)
-            .padding(top=20.dp)
+            .padding(top = 20.dp)
             .background(color = Color.Transparent, shape = RoundedCornerShape(8.dp))
     ) {
-        // Load the "carrot" drawable image as the background
         Image(
             painter = painterResource(id = R.drawable.carrot), // Make sure "carrot" is in res/drawable
             contentDescription = "Background Image",
@@ -138,9 +148,12 @@ fun WelcomeBar() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Welcome",
+                text = "Welcome to Cole's Bakeshop",
                 color = Color.White,
-                style = MaterialTheme.typography.headlineSmall
+                style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 27.sp
+                        )
             )
         }
     }
@@ -211,10 +224,8 @@ fun SearchBar(
 }
 
 @Composable
-fun Categories() {
-    val cupcakes = painterResource(id = R.drawable.cupcake)
-    val cakes = painterResource(id = R.drawable.cake)
-    val pastries = painterResource(id = R.drawable.pastries)
+fun Categories(navController: NavController) {
+    var selectedCategory by remember { mutableStateOf<String?>(null) }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -224,28 +235,50 @@ fun Categories() {
             text = "Categories",
             style = TextStyle(
                 textAlign = TextAlign.Center,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.SemiBold,
+                fontSize = 15.sp,
+                fontWeight = FontWeight.Bold,
                 color = Color(0xff000000),
             ),
+            textAlign = TextAlign.Start,
             modifier = Modifier.padding(bottom = 16.dp)
         )
         Row(
             horizontalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier.fillMaxWidth()
         ) {
-            CategoryItem( text = "Cakes")
-            CategoryItem( text = "Dessert")
-            CategoryItem( text = "Pastries")
+            CategoryItem(
+                text = "Cakes",
+                navController = navController,
+                route = "cake",
+                isSelected = selectedCategory == "Cakes",
+                onClick = { selectedCategory = "Cakes" }
+            )
+            CategoryItem(
+                text = "Dessert",
+                navController = navController,
+                route = "dessert",
+                isSelected = selectedCategory == "Dessert",
+                onClick = { selectedCategory = "Dessert" }
+            )
+            CategoryItem(
+                text = "Pastries",
+                navController = navController,
+                route = "pastries",
+                isSelected = selectedCategory == "Pastries",
+                onClick = { selectedCategory = "Pastries" }
+            )
         }
     }
 }
 
 @Composable
-fun CategoryItem(text: String) {
-    // Track selection state
-    var isSelected by remember { mutableStateOf(false) }
-
+fun CategoryItem(
+    text: String,
+    navController: NavController,
+    route: String,
+    isSelected: Boolean,
+    onClick: () -> Unit
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -256,7 +289,10 @@ fun CategoryItem(text: String) {
             )
             .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(12.dp))
             .padding(8.dp)
-            .clickable { isSelected = !isSelected } // Toggle state on click
+            .clickable {
+                onClick() // Update selected category
+                navController.navigate(route)
+            }
     ) {
         Text(
             text = text,
@@ -268,12 +304,62 @@ fun CategoryItem(text: String) {
         )
     }
 }
+@Composable
+fun CakePage(navController: NavController){
+    val basketCake= painterResource(id = R.drawable.basketcake)
+    Column(modifier = Modifier.fillMaxWidth(0.9f)) {
+        Row {
+            Column(
+                modifier = Modifier
+                    .width(130.dp)
+                    .height(130.dp)
+                    .shadow(
+                        elevation = 8.dp, // Adjust elevation as needed
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                    .background(
+                        color = Color.White,
+                        shape = RoundedCornerShape(12.dp)
+                    )
+            ) {
+                Image(
+                    painter = basketCake,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(12.dp))
+                        .height(80.dp),
+                    contentScale = ContentScale.Crop
+                )
+                Column(
+                    Modifier
+                        .background(Color.White)
+                        .height(50.dp)
+                ) {
+                    Text(
+                        text = "Basket Cake",
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium
+                        )
+                    )
+                    Text(
+                        text = "40,000",
+                        style = TextStyle(
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Light
+                        )
+                    )
+                }
+            }
+        }
+    }
+}
 
 @Composable
-fun Recommendation(){
+fun DessertPage(navController: NavController){
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
-            text = "This week's recommendation",
+            text = "This is the page for Desserts",
             style = TextStyle(
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold,
@@ -284,3 +370,21 @@ fun Recommendation(){
         )
     }
 }
+
+@Composable
+fun PastriesPage(navController: NavController){
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(
+            text = "This is the page for pastries",
+            style = TextStyle(
+                fontSize = 18.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = Color(0xff000000),
+                textAlign = TextAlign.Start,
+            ),
+            modifier = Modifier.padding(start = 17.dp)
+        )
+    }
+}
+
+
