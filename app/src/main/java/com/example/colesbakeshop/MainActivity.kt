@@ -3,6 +3,7 @@ package com.example.colesbakeshop
 import android.net.Uri
 import android.os.Bundle
 import android.widget.FrameLayout
+import android.widget.Space
 import android.widget.VideoView
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -304,70 +305,148 @@ fun CategoryItem(
         )
     }
 }
+
 @Composable
-fun CakePage(navController: NavController){
-    val basketCake= painterResource(id = R.drawable.basketcake)
+fun CakePage(navController: NavController) {
+    val basketCake = painterResource(id = R.drawable.basketcake)
     Column(modifier = Modifier.fillMaxWidth(0.9f)) {
-        Row {
-            Column(
-                modifier = Modifier
-                    .width(130.dp)
-                    .height(130.dp)
-                    .shadow(
-                        elevation = 8.dp, // Adjust elevation as needed
-                        shape = RoundedCornerShape(12.dp)
-                    )
-                    .background(
-                        color = Color.White,
-                        shape = RoundedCornerShape(12.dp)
-                    )
-            ) {
-                Image(
-                    painter = basketCake,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(12.dp))
-                        .height(80.dp),
-                    contentScale = ContentScale.Crop
-                )
-                Column(
-                    Modifier
-                        .background(Color.White)
-                        .height(50.dp)
-                ) {
-                    Text(
-                        text = "Basket Cake",
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Medium
-                        )
-                    )
-                    Text(
-                        text = "40,000",
-                        style = TextStyle(
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Light
-                        )
-                    )
-                }
-            }
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            CakeItem(basketCake, text = "Basket Cake", price = "₦40,000")
+            CakeItem(basketCake, text = "Budget Cake", price = "₦35,000")
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            CakeItem(basketCake, text = "Bento Cake", price = "₦8,000")
+            CakeItem(basketCake, text = "Custom 3 Layer Cake", price = "₦60,000")
         }
     }
 }
 
 @Composable
-fun DessertPage(navController: NavController){
-    Column(modifier = Modifier.fillMaxWidth()) {
-        Text(
-            text = "This is the page for Desserts",
-            style = TextStyle(
-                fontSize = 18.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = Color(0xff000000),
-                textAlign = TextAlign.Start,
-            ),
-            modifier = Modifier.padding(start = 17.dp)
+fun CakeItem(painter: Painter, text:String, price: String) {
+    Column(
+        modifier = Modifier
+            .width(130.dp)
+            .height(130.dp)
+            .shadow(
+                elevation = 8.dp,
+                shape = RoundedCornerShape(12.dp)
+            )
+            .background(
+                color = Color.White,
+                shape = RoundedCornerShape(12.dp)
+            )
+    ) {
+        Image(
+            painter = painter,
+            contentDescription = null,
+            modifier = Modifier
+                .clip(RoundedCornerShape(12.dp))
+                .height(80.dp),
+            contentScale = ContentScale.Crop
         )
+        Column(
+            Modifier
+                .background(Color.White)
+                .height(50.dp)
+        ) {
+            Text(
+                text = text,
+                style = TextStyle(
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium
+                )
+            )
+            Text(
+                text = price,
+                style = TextStyle(
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Medium
+                )
+            )
+        }
+    }
+}
+@Composable
+fun DessertPage(navController: NavController){
+    val carrotDessert = painterResource(id = R.drawable.carrotcakedessert)
+    val cakeParfait= painterResource(id = R.drawable.cakeparfait)
+    Column(modifier = Modifier.fillMaxWidth(0.9f)) {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            DessertItem(carrotDessert, text = "Carrot Cake", price = "₦4,000")
+            DessertItem(cakeParfait, text = "Cake Parfait", price = "₦4,500")
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            DessertItem(carrotDessert, text = "Mini Foil Cake", price = "₦3,000")
+            DessertItem(carrotDessert, text = "Cake Tub", price = "₦3,800")
+        }
+    }
+}
+
+@Composable
+fun DessertItem(painter: Painter, text:String, price: String) {
+    Column(
+        modifier = Modifier
+            .width(130.dp)
+            .height(130.dp)
+            .shadow(
+                elevation = 8.dp,
+                shape = RoundedCornerShape(12.dp)
+            )
+            .background(
+                color = Color.White,
+                shape = RoundedCornerShape(12.dp)
+            )
+    ) {
+        Image(
+            painter = painter,
+            contentDescription = null,
+            modifier = Modifier
+                .clip(RoundedCornerShape(12.dp))
+                .height(80.dp),
+            contentScale = ContentScale.Crop
+        )
+        Column(
+            Modifier
+                .background(Color.White)
+                .height(50.dp)
+        ) {
+            Text(
+                text = text,
+                style = TextStyle(
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium
+                )
+            )
+            Text(
+                text = price,
+                style = TextStyle(
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Medium
+                )
+            )
+        }
     }
 }
 
