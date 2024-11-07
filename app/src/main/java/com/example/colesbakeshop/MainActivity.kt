@@ -1,10 +1,6 @@
 package com.example.colesbakeshop
 
-import android.net.Uri
 import android.os.Bundle
-import android.widget.FrameLayout
-import android.widget.Space
-import android.widget.VideoView
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
@@ -22,21 +18,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -45,7 +36,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
@@ -57,16 +47,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
-import androidx.navigation.NavHost
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.colesbakeshop.ui.theme.ColesBakeShopTheme
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class MainActivity : androidx.activity.ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,7 +64,8 @@ class MainActivity : androidx.activity.ComponentActivity() {
                     color = Color(0xffffffff)
                 ) {
                     Column(
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        modifier= Modifier.verticalScroll(rememberScrollState()),
+                        horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         HomePage()
                     }
@@ -308,7 +294,9 @@ fun CategoryItem(
 
 @Composable
 fun CakePage(navController: NavController) {
-    val basketCake = painterResource(id = R.drawable.basketcake)
+    val whippedCreamCake = painterResource(id = R.drawable.whippedcreamcake)
+    val basketCake= painterResource(id = R.drawable.basketcake)
+    val butterIcing= painterResource(id = R.drawable.buttericingcake)
     Column(modifier = Modifier.fillMaxWidth(0.9f)) {
         Row(
             Modifier
@@ -317,7 +305,37 @@ fun CakePage(navController: NavController) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             CakeItem(basketCake, text = "Basket Cake", price = "₦40,000")
-            CakeItem(basketCake, text = "Budget Cake", price = "₦35,000")
+            CakeItem(butterIcing, text = "Butter Icing Cake", price = "₦60,000")
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            CakeItem(basketCake, text = "Bento Cake", price = "₦8,000")
+            CakeItem(whippedCreamCake, text = "Whipped Cream Cake", price = "₦60,000")
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            CakeItem(basketCake, text = "Fondant Cake", price = "₦8,000")
+            CakeItem(basketCake, text = "Custom 3 Layer Cake", price = "₦60,000")
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            CakeItem(basketCake, text = "Bento Cake", price = "₦8,000")
+            CakeItem(basketCake, text = "Custom 3 Layer Cake", price = "₦60,000")
         }
         Spacer(modifier = Modifier.height(20.dp))
         Row(
@@ -452,17 +470,73 @@ fun DessertItem(painter: Painter, text:String, price: String) {
 
 @Composable
 fun PastriesPage(navController: NavController){
-    Column(modifier = Modifier.fillMaxWidth()) {
-        Text(
-            text = "This is the page for pastries",
-            style = TextStyle(
-                fontSize = 18.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = Color(0xff000000),
-                textAlign = TextAlign.Start,
-            ),
-            modifier = Modifier.padding(start = 17.dp)
+    val boxOfFour= painterResource(id = R.drawable.boxoffourdonuts)
+    Column(modifier = Modifier.fillMaxWidth(0.9f)) {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            PastriesItem(boxOfFour, text = "Box Of 4 Milky Donuts", price = "₦7,000")
+            PastriesItem(boxOfFour, text = "Box Of 6 Milky Donuts", price = "₦11,000")
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            PastriesItem(boxOfFour, text = "Box of 8 Milky Donuts", price = "₦15,000")
+            PastriesItem(boxOfFour, text = "Cake Tub", price = "₦3,800")
+        }
+    }
+}
+
+@Composable
+fun PastriesItem(painter: Painter, text:String, price: String) {
+    Column(
+        modifier = Modifier
+            .width(130.dp)
+            .height(130.dp)
+            .shadow(
+                elevation = 8.dp,
+                shape = RoundedCornerShape(12.dp)
+            )
+            .background(
+                color = Color.White,
+                shape = RoundedCornerShape(12.dp)
+            )
+    ) {
+        Image(
+            painter = painter,
+            contentDescription = null,
+            modifier = Modifier
+                .clip(RoundedCornerShape(12.dp))
+                .height(80.dp),
+            contentScale = ContentScale.Crop
         )
+        Column(
+            Modifier
+                .background(Color.White)
+                .height(50.dp)
+        ) {
+            Text(
+                text = text,
+                style = TextStyle(
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium
+                )
+            )
+            Text(
+                text = price,
+                style = TextStyle(
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Medium
+                )
+            )
+        }
     }
 }
 
