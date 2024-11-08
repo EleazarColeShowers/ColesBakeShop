@@ -297,6 +297,12 @@ fun CakePage(navController: NavController) {
     val whippedCreamCake = painterResource(id = R.drawable.whippedcreamcake)
     val basketCake= painterResource(id = R.drawable.basketcake)
     val butterIcing= painterResource(id = R.drawable.buttericingcake)
+    val topForwardCake= painterResource(id = R.drawable.topforwardcake)
+    val customizedCake= painterResource(id = R.drawable.customizedcake)
+    val floralButterCream= painterResource(id = R.drawable.floralbuttercream)
+    val classicCreamCake= painterResource(id = R.drawable.classiccreamcake)
+    val fullyWhippedCreamCake= painterResource(id = R.drawable.fullywhipped)
+    val budgetCake= painterResource(id = R.drawable.budgetcake)
     Column(modifier = Modifier.fillMaxWidth(0.9f)) {
         Row(
             Modifier
@@ -314,7 +320,7 @@ fun CakePage(navController: NavController) {
                 .padding(horizontal = 20.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            CakeItem(basketCake, text = "Bento Cake", price = "₦8,000")
+            CakeItem(topForwardCake, text = "Top Forward Cake", price = "₦35,000")
             CakeItem(whippedCreamCake, text = "Whipped Cream Cake", price = "₦60,000")
         }
         Spacer(modifier = Modifier.height(20.dp))
@@ -324,8 +330,8 @@ fun CakePage(navController: NavController) {
                 .padding(horizontal = 20.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            CakeItem(basketCake, text = "Fondant Cake", price = "₦8,000")
-            CakeItem(basketCake, text = "Custom 3 Layer Cake", price = "₦60,000")
+            CakeItem(customizedCake, text = "Customized Cake", price = "₦50,000")
+            CakeItem(floralButterCream, text = "Floral Butter Cream Cake", price = "₦30,000")
         }
         Spacer(modifier = Modifier.height(20.dp))
         Row(
@@ -334,8 +340,8 @@ fun CakePage(navController: NavController) {
                 .padding(horizontal = 20.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            CakeItem(basketCake, text = "Bento Cake", price = "₦8,000")
-            CakeItem(basketCake, text = "Custom 3 Layer Cake", price = "₦60,000")
+            CakeItem(classicCreamCake, text = "Classic Cream Cake", price = "₦55,000")
+            CakeItem(fullyWhippedCreamCake, text = "Whipped Cream Birthday Cake", price = "₦60,000")
         }
         Spacer(modifier = Modifier.height(20.dp))
         Row(
@@ -344,7 +350,7 @@ fun CakePage(navController: NavController) {
                 .padding(horizontal = 20.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            CakeItem(basketCake, text = "Bento Cake", price = "₦8,000")
+            CakeItem(budgetCake, text = "Budget Cake", price = "₦30,000")
             CakeItem(basketCake, text = "Custom 3 Layer Cake", price = "₦60,000")
         }
     }
