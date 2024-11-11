@@ -1,5 +1,6 @@
 package com.example.colesbakeshop
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -39,6 +41,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -67,7 +70,6 @@ class MainActivity : androidx.activity.ComponentActivity() {
                     color = Color(0xffffffff)
                 ) {
                     Column(
-                        modifier= Modifier.verticalScroll(rememberScrollState()),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         HomePage()
@@ -110,31 +112,6 @@ fun HomePage() {
             composable("Cake") { CakePage(navController) }
             composable("Dessert") { DessertPage(navController) }
             composable("Pastries") { PastriesPage(navController) }
-
-            composable(
-                route = "CakeDetails/{itemName}/{itemPrice}/{itemDescription}/{itemImage}",
-                arguments = listOf(
-                    navArgument("itemName") { type = NavType.StringType },
-                    navArgument("itemPrice") { type = NavType.StringType },
-                    navArgument("itemDescription") { type = NavType.StringType },
-                    navArgument("itemImage") { type = NavType.IntType }
-                )
-            ) { backStackEntry ->
-                // Retrieve arguments
-                val itemName = backStackEntry.arguments?.getString("itemName") ?: ""
-                val itemPrice = backStackEntry.arguments?.getString("itemPrice") ?: ""
-                val itemDescription = backStackEntry.arguments?.getString("itemDescription") ?: ""
-                val itemImage = backStackEntry.arguments?.getInt("itemImage") ?: R.drawable.carrot
-
-                // Full screen for CakeDetailsPage
-                CakeDetailsPage(
-                    itemName = itemName,
-                    itemPrice = itemPrice,
-                    itemDescription = itemDescription,
-                    itemImage = itemImage,
-                    navController
-                )
-            }
         }
     }
 }
@@ -330,18 +307,30 @@ fun CakePage(navController: NavController) {
     val classicCreamCake= painterResource(id = R.drawable.classiccreamcake)
     val fullyWhippedCreamCake= painterResource(id = R.drawable.fullywhipped)
     val budgetCake= painterResource(id = R.drawable.budgetcake)
-    Column(modifier = Modifier.fillMaxWidth(0.9f)) {
+    LazyColumn(modifier = Modifier.fillMaxWidth(0.9f)) {
+        item {
         Row(
             Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            CakeItem(basketCake, text = "Basket Cake", price = "₦40,000",description = "A beautifully crafted basket cake perfect for celebrations!", imageResId = R.drawable.basketcake,
+            CakeItem(
+                basketCake,
+                text = "Basket Cake",
+                price = "₦40,000",
+                description = "A beautifully crafted basket cake perfect for celebrations!",
+                imageResId = R.drawable.basketcake,
                 navController = navController
             )
-            CakeItem(butterIcing, text = "Butter Icing Cake", price = "₦60,000" ,description = "A beautifully crafted basket cake perfect for celebrations!", imageResId = R.drawable.buttericingcake,
-                navController = navController)
+            CakeItem(
+                butterIcing,
+                text = "Butter Icing Cake",
+                price = "₦60,000",
+                description = "A beautifully crafted basket cake perfect for celebrations!",
+                imageResId = R.drawable.buttericingcake,
+                navController = navController
+            )
         }
         Spacer(modifier = Modifier.height(20.dp))
         Row(
@@ -350,10 +339,22 @@ fun CakePage(navController: NavController) {
                 .padding(horizontal = 20.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            CakeItem(topForwardCake, text = "Top Forward Cake", price = "₦35,000",description = "A beautifully crafted basket cake perfect for celebrations!", imageResId = R.drawable.topforwardcake,
-                navController = navController)
-            CakeItem(whippedCreamCake, text = "Whipped Cream Cake", price = "₦60,000",description = "A beautifully crafted basket cake perfect for celebrations!", imageResId = R.drawable.whippedcreamcake,
-                navController = navController)
+            CakeItem(
+                topForwardCake,
+                text = "Top Forward Cake",
+                price = "₦35,000",
+                description = "A beautifully crafted basket cake perfect for celebrations!",
+                imageResId = R.drawable.topforwardcake,
+                navController = navController
+            )
+            CakeItem(
+                whippedCreamCake,
+                text = "Whipped Cream Cake",
+                price = "₦60,000",
+                description = "A beautifully crafted basket cake perfect for celebrations!",
+                imageResId = R.drawable.whippedcreamcake,
+                navController = navController
+            )
         }
         Spacer(modifier = Modifier.height(20.dp))
         Row(
@@ -362,10 +363,22 @@ fun CakePage(navController: NavController) {
                 .padding(horizontal = 20.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            CakeItem(customizedCake, text = "Customized Cake", price = "₦50,000",description = "A beautifully crafted basket cake perfect for celebrations!", imageResId = R.drawable.customizedcake,
-                navController = navController)
-            CakeItem(floralButterCream, text = "Floral Butter Cream Cake", price = "₦30,000",description = "A beautifully crafted basket cake perfect for celebrations!", imageResId = R.drawable.floralbuttercream,
-                navController = navController)
+            CakeItem(
+                customizedCake,
+                text = "Customized Cake",
+                price = "₦50,000",
+                description = "A beautifully crafted basket cake perfect for celebrations!",
+                imageResId = R.drawable.customizedcake,
+                navController = navController
+            )
+            CakeItem(
+                floralButterCream,
+                text = "Floral Butter Cream Cake",
+                price = "₦30,000",
+                description = "A beautifully crafted basket cake perfect for celebrations!",
+                imageResId = R.drawable.floralbuttercream,
+                navController = navController
+            )
         }
         Spacer(modifier = Modifier.height(20.dp))
         Row(
@@ -374,10 +387,22 @@ fun CakePage(navController: NavController) {
                 .padding(horizontal = 20.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            CakeItem(classicCreamCake, text = "Classic Cream Cake", price = "₦55,000",description = "A beautifully crafted basket cake perfect for celebrations!", imageResId = R.drawable.classiccreamcake,
-                navController = navController)
-            CakeItem(fullyWhippedCreamCake, text = "Whipped Cream Birthday Cake", price = "₦60,000",description = "A beautifully crafted basket cake perfect for celebrations!", imageResId = R.drawable.fullywhipped,
-                navController = navController)
+            CakeItem(
+                classicCreamCake,
+                text = "Classic Cream Cake",
+                price = "₦55,000",
+                description = "A beautifully crafted basket cake perfect for celebrations!",
+                imageResId = R.drawable.classiccreamcake,
+                navController = navController
+            )
+            CakeItem(
+                fullyWhippedCreamCake,
+                text = "Whipped Cream Birthday Cake",
+                price = "₦60,000",
+                description = "A beautifully crafted basket cake perfect for celebrations!",
+                imageResId = R.drawable.fullywhipped,
+                navController = navController
+            )
         }
         Spacer(modifier = Modifier.height(20.dp))
         Row(
@@ -386,16 +411,30 @@ fun CakePage(navController: NavController) {
                 .padding(horizontal = 20.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            CakeItem(budgetCake, text = "Budget Cake", price = "₦30,000",description = "A beautifully crafted basket cake perfect for celebrations!", imageResId = R.drawable.budgetcake,
-                navController = navController)
-            CakeItem(basketCake, text = "Custom 3 Layer Cake", price = "₦60,000",description = "A beautifully crafted basket cake perfect for celebrations!", imageResId = R.drawable.basketcake,
-                navController = navController)
+            CakeItem(
+                budgetCake,
+                text = "Budget Cake",
+                price = "₦30,000",
+                description = "A beautifully crafted basket cake perfect for celebrations!",
+                imageResId = R.drawable.budgetcake,
+                navController = navController
+            )
+            CakeItem(
+                basketCake,
+                text = "Custom 3 Layer Cake",
+                price = "₦60,000",
+                description = "A beautifully crafted basket cake perfect for celebrations!",
+                imageResId = R.drawable.basketcake,
+                navController = navController
+            )
         }
+    }
     }
 }
 
 @Composable
 fun CakeItem(painter: Painter, text:String, price: String, navController: NavController, description: String, imageResId: Int) {
+    val context= LocalContext.current
     Column(
         modifier = Modifier
             .width(130.dp)
@@ -409,7 +448,14 @@ fun CakeItem(painter: Painter, text:String, price: String, navController: NavCon
                 shape = RoundedCornerShape(12.dp)
             )
             .clickable {
-                navController.navigate("CakeDetails/$text/$price/$description/$imageResId")
+                // Create and launch the intent to start ProductDetailsActivity
+                val intent = Intent(context, ProductDetailsActivity::class.java).apply {
+                    putExtra("itemName", text)
+                    putExtra("itemPrice", price)
+                    putExtra("itemDescription", description)
+                    putExtra("itemImage", imageResId)
+                }
+                context.startActivity(intent)
             }
     ) {
         Image(
@@ -588,90 +634,5 @@ fun PastriesItem(painter: Painter, text:String, price: String) {
     }
 }
 
-@Composable
-fun CakeDetailsPage(itemName: String, itemPrice: String, itemDescription: String, itemImage: Int, navController: NavController) {
-    val returnArrow= painterResource(id = R.drawable.returnarrow)
-    Box(modifier = Modifier.fillMaxSize().padding(top=10.dp)) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-        ) {
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Column(
-                    Modifier
-                        .size(28.dp)
-                        .clickable {
-                            navController.popBackStack()
-                        }
-                        .background(color = Color.Black, shape = RoundedCornerShape(12.dp)),                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
 
-                ) {
-                    Image(
-                        painter = returnArrow,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .width(12.6.dp)
-                            .height(19.6.dp)
-                    )
-                }
-                Spacer(modifier = Modifier.weight(1f))
-                Column(
-                    modifier = Modifier
-                        .height(30.dp)
-                        .width(160.dp)
-                        .border(width = 1.dp, color = Color.Black)
-                        .background(
-                            color = Color.White,
-                            shape = RoundedCornerShape(12.dp)
-                        )
-                        .clip(RoundedCornerShape(12.dp))
-                        .align(Alignment.CenterVertically), // Aligns column vertically at the center of the row
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = "Product Details",
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            color = Color.Black,
-                        )
-                    )
-                }
-            }
-            
-            Spacer(modifier = Modifier.height(48.dp))
-            Image(
-                painter = painterResource(id = itemImage),
-                contentDescription = "Cake Image",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .height(205.dp)
-                    .align(Alignment.CenterHorizontally)
-                    .clip(RoundedCornerShape(12.dp)),
-                contentScale = ContentScale.Crop,
-            )
-            Spacer(modifier = Modifier.height(53.dp))
-            Text(text = itemName, style = TextStyle(fontSize = 26.sp, fontWeight = FontWeight.Bold))
-            Text(text = itemPrice, style = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.SemiBold))
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Text(
-                text = itemDescription,
-                style = TextStyle(fontSize = 16.sp),
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-        }
-    }
-}
 
