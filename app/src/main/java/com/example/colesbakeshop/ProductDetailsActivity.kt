@@ -86,7 +86,7 @@ fun ProductDetailsScreen(
     val add = painterResource(id = R.drawable.add)
     val reduce = painterResource(id = R.drawable.reduce)
 
-    val initialPrice = itemPrice.toDoubleOrNull() ?: 0.0
+    val initialPrice = itemPrice.replace("[^\\d.]".toRegex(), "").toDoubleOrNull() ?: 0.0
     var quantity by remember { mutableStateOf(1) }
     var calculatedPrice by remember { mutableStateOf(initialPrice) }
 
@@ -220,13 +220,32 @@ fun ProductDetailsScreen(
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
                     text = "₦${String.format("%.2f", calculatedPrice)}",
-                    style = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.Bold),
+                    style = TextStyle(fontSize = 17.sp, fontWeight = FontWeight.Bold),
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
-
+            Spacer(modifier = Modifier.height(35.dp))
+            Column (
+                Modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxWidth()
+                    .height(54.dp)
+                    .align(Alignment.CenterHorizontally)
+                    .background(color = Color.Black, shape = RoundedCornerShape(25.dp)),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ){
+                Text(
+                    text = "Add to Cart",
+                    color = Color.White,
+                    style = TextStyle(
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 14.sp
+                    )
+                )
+            }
+            Spacer(modifier = Modifier.height(28.dp))
             Text(
                 text = itemDescription,
                 style = TextStyle(fontSize = 16.sp),
