@@ -129,7 +129,7 @@ fun ProductDetailsScreen(
                     modifier = Modifier
                         .height(30.dp)
                         .width(160.dp)
-                        .border(width = 1.dp, color = Color.Black)
+                        .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(12.dp))
                         .background(
                             color = Color.White,
                             shape = RoundedCornerShape(12.dp)
