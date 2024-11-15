@@ -20,12 +20,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -51,12 +49,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.example.colesbakeshop.ui.theme.ColesBakeShopTheme
 
 class MainActivity : androidx.activity.ComponentActivity() {
@@ -86,36 +82,48 @@ fun HomePage() {
     val searchQuery = remember { mutableStateOf("") }
     val navController = rememberNavController()
 
-    Column(
-        Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+    Box(
+        Modifier
+            .fillMaxSize()
     ) {
-        if (!isCakeDetailsPage(navController)) {
-            WelcomeBar()
-            Spacer(modifier = Modifier.height(14.dp))
+        Column(
+            Modifier
+                .fillMaxSize()
+                .padding(bottom = 56.dp), // Reserve space for the BottomBar
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            if (!isCakeDetailsPage(navController)) {
+                WelcomeBar()
+                Spacer(modifier = Modifier.height(14.dp))
 
-            SearchBar(
-                hint = "Search for Cupcakes, Cakes ...",
-                onTextChange = { query ->
-                    searchQuery.value = query
-                },
-                onSearchClicked = {
-                    println("Search for: ${searchQuery.value}")
-                }
-            )
-            Spacer(modifier = Modifier.height(28.dp))
-            Categories(navController)
-            Spacer(modifier = Modifier.height(29.dp))
+                SearchBar(
+                    hint = "Search for Cupcakes, Cakes ...",
+                    onTextChange = { query ->
+                        searchQuery.value = query
+                    },
+                    onSearchClicked = {
+                        println("Search for: ${searchQuery.value}")
+                    }
+                )
+                Spacer(modifier = Modifier.height(28.dp))
+                Categories(navController)
+                Spacer(modifier = Modifier.height(29.dp))
+            }
+
+            NavHost(navController = navController, startDestination = "Cake") {
+                composable("Cake") { CakePage(navController) }
+                composable("Dessert") { DessertPage(navController) }
+                composable("Pastries") { PastriesPage(navController) }
+            }
         }
 
-        NavHost(navController = navController, startDestination = "Cake") {
-            composable("Cake") { CakePage(navController) }
-            composable("Dessert") { DessertPage(navController) }
-            composable("Pastries") { PastriesPage(navController) }
-        }
+        // BottomBar pinned to the bottom
+        BottomBar(
+            Modifier
+                .align(Alignment.BottomCenter) // Align BottomBar to the bottom of the screen
+        )
     }
 }
-
 @Composable
 fun isCakeDetailsPage(navController: NavController): Boolean {
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
@@ -631,6 +639,17 @@ fun PastriesItem(painter: Painter, text:String, price: String) {
                 )
             )
         }
+    }
+}
+
+@Composable
+fun BottomBar(modifier: Modifier) {
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .background(color = Color.White)) {
+        Text(text = "Bottom bar for various icons", color = Color.Black)
+        
     }
 }
 

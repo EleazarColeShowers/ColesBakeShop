@@ -34,6 +34,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -123,7 +124,6 @@ fun ProductDetailsScreen(
                             .height(19.6.dp)
                     )
                 }
-
                 Spacer(modifier = Modifier.weight(1f))
                 Column(
                     modifier = Modifier
@@ -149,7 +149,6 @@ fun ProductDetailsScreen(
                     )
                 }
             }
-
             Spacer(modifier = Modifier.height(48.dp))
 
             Image(
@@ -159,6 +158,10 @@ fun ProductDetailsScreen(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
                     .height(205.dp)
+                    .shadow(
+                        elevation = 8.dp,
+                        shape = RoundedCornerShape(12.dp)
+                    )
                     .clip(RoundedCornerShape(12.dp)),
                 contentScale = ContentScale.Crop,
             )
