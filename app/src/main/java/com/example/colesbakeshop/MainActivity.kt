@@ -647,9 +647,18 @@ fun BottomBar(modifier: Modifier) {
     Column(
         Modifier
             .fillMaxWidth()
-            .background(color = Color.White)) {
-        Text(text = "Bottom bar for various icons", color = Color.Black)
-        
+            .height(97.dp)
+            .background(color = Color.White),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Column (
+            Modifier.height(53.dp)
+                .width(336.dp)
+                .border(width = 1.dp, color = Color.Black)
+        ){
+
+        }
     }
 }
 
