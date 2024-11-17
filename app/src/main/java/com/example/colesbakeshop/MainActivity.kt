@@ -655,7 +655,7 @@ fun BottomBar(modifier: Modifier) {
         Column (
             Modifier.height(53.dp)
                 .width(336.dp)
-                .border(width = 1.dp, color = Color.Black)
+                .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(12.dp))
         ){
 
         }
