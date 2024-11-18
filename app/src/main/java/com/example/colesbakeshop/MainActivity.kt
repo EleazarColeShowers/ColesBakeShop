@@ -24,6 +24,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -82,14 +84,18 @@ fun HomePage() {
     val searchQuery = remember { mutableStateOf("") }
     val navController = rememberNavController()
 
-    Box(
-        Modifier
-            .fillMaxSize()
-    ) {
+    Scaffold(
+        bottomBar = {
+            BottomBar(
+                Modifier
+                    .fillMaxWidth()
+            )
+        }
+    ) { innerPadding ->
         Column(
             Modifier
                 .fillMaxSize()
-                .padding(bottom = 56.dp), // Reserve space for the BottomBar
+                .padding(innerPadding) ,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             if (!isCakeDetailsPage(navController)) {
@@ -116,12 +122,6 @@ fun HomePage() {
                 composable("Pastries") { PastriesPage(navController) }
             }
         }
-
-        // BottomBar pinned to the bottom
-        BottomBar(
-            Modifier
-                .align(Alignment.BottomCenter) // Align BottomBar to the bottom of the screen
-        )
     }
 }
 @Composable
@@ -183,7 +183,7 @@ fun SearchBar(hint: String = "Search for Cupcakes, Cakes ...", onTextChange: (St
                 Color(0xffffffff),
                 shape = RoundedCornerShape(12.dp)
             )
-            .border(2.dp, Color(0xff000000), RoundedCornerShape(12.dp)) // Darker pink border
+            .border(2.dp, Color(0xff9facdc), RoundedCornerShape(18.dp)) // Darker pink border
             .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -286,7 +286,7 @@ fun CategoryItem(text: String, navController: NavController, route: String, isSe
                 color = if (isSelected) Color.Black else Color.White,
                 shape = RoundedCornerShape(12.dp)
             )
-            .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(12.dp))
+            .border(width = 1.dp, color = Color(0xff9facdc), shape = RoundedCornerShape(12.dp))
             .padding(8.dp)
             .clickable {
                 onClick()
@@ -643,7 +643,12 @@ fun PastriesItem(painter: Painter, text:String, price: String) {
 }
 
 @Composable
-fun BottomBar(modifier: Modifier) {
+fun BottomBar(modifier: Modifier = Modifier) {
+    val home = painterResource(id = R.drawable.homeicon)
+    val cart = painterResource(id = R.drawable.carticon)
+    val mail = painterResource(id = R.drawable.mail)
+    val person = painterResource(id = R.drawable.person)
+
     Column(
         Modifier
             .fillMaxWidth()
@@ -652,15 +657,24 @@ fun BottomBar(modifier: Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Column (
-            Modifier.height(53.dp)
-                .width(336.dp)
-                .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(12.dp))
-        ){
-
+        Column(
+            Modifier
+                .height(53.dp)
+                .fillMaxWidth(0.9f)
+                .border(width = 1.dp, color = Color(0xff9facdc), shape = RoundedCornerShape(25.dp))
+        ) {
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(painter = home, contentDescription = "Home Icon", tint = Color(0xff9facdc))
+                Icon(painter = cart, contentDescription = "Cart Icon", tint = Color(0xff9facdc))
+                Icon(painter = mail, contentDescription = "Mail Icon", tint = Color(0xff9facdc))
+                Icon(painter = person, contentDescription = "Person Icon", tint = Color(0xff9facdc))
+            }
         }
     }
 }
-
-
-
