@@ -6,6 +6,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -128,6 +129,45 @@ fun Welcome(){
                     .padding(bottom = 16.dp)
             )
         }
+        Spacer(modifier = Modifier.height(41.dp))
+        Column(
+            modifier= Modifier
+                .width(245.dp)
+                .height(46.dp)
+                .background(color = Color(0xFFFF91A4), shape = RoundedCornerShape(15.dp))
+                .align(Alignment.CenterHorizontally),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text= "Login",
+                color= Color.White,
+                style = TextStyle(
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Medium
+                )
+            )
+        }
+        Spacer(modifier = Modifier.height(21.dp))
+        Column(
+            modifier= Modifier
+                .width(245.dp)
+                .height(46.dp)
+                .background(color = Color(0xff9facdc), shape = RoundedCornerShape(15.dp))
+                .align(Alignment.CenterHorizontally),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text= "Sign Up",
+                color= Color.White,
+                style = TextStyle(
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Medium
+                )
+            )
+        }
+
 
     }
 
