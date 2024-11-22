@@ -1,11 +1,13 @@
 package com.example.colesbakeshop
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +30,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -36,6 +39,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
 import com.example.colesbakeshop.ui.theme.ColesBakeShopTheme
 
 class WelcomePage : androidx.activity.ComponentActivity() {
@@ -61,6 +65,7 @@ class WelcomePage : androidx.activity.ComponentActivity() {
 
 @Composable
 fun Welcome(){
+    val context = LocalContext.current
     val comforter1 = FontFamily(
         Font(R.font.comforter1)
     )
@@ -154,7 +159,11 @@ fun Welcome(){
                 .width(245.dp)
                 .height(46.dp)
                 .background(color = Color(0xff9facdc), shape = RoundedCornerShape(15.dp))
-                .align(Alignment.CenterHorizontally),
+                .align(Alignment.CenterHorizontally)
+                .clickable {
+                    val intent= Intent(context, SignUpActivity::class.java)
+                    context.startActivity(intent)
+                },
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
@@ -167,8 +176,6 @@ fun Welcome(){
                 )
             )
         }
-
-
     }
 
 }
