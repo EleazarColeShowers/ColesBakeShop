@@ -140,7 +140,11 @@ fun Welcome(){
                 .width(245.dp)
                 .height(46.dp)
                 .background(color = Color(0xFFFF91A4), shape = RoundedCornerShape(15.dp))
-                .align(Alignment.CenterHorizontally),
+                .align(Alignment.CenterHorizontally)
+                .clickable {
+                    val intent= Intent(context, LogInActivity::class.java)
+                    context.startActivity(intent)
+                },
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {

@@ -2,7 +2,6 @@ package com.example.colesbakeshop
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Space
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
@@ -32,7 +31,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -45,7 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.colesbakeshop.ui.theme.ColesBakeShopTheme
 
-class SignUpActivity : androidx.activity.ComponentActivity() {
+class LogInActivity : androidx.activity.ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -58,7 +56,7 @@ class SignUpActivity : androidx.activity.ComponentActivity() {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
-                        SignUpPage()
+                        LogInPage()
                     }
                 }
             }
@@ -68,7 +66,7 @@ class SignUpActivity : androidx.activity.ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignUpPage(){
+fun LogInPage(){
     val comforter1 = FontFamily(
         Font(R.font.comforter1)
     )
@@ -103,12 +101,12 @@ fun SignUpPage(){
 
         Column(
             modifier = Modifier.width(300.dp),
-            ) {
+        ) {
             Column(
                 horizontalAlignment = Alignment.Start
             ) {
                 Text(
-                    text = "Welcome!",
+                    text = "Welcome back!",
                     fontFamily = poppinsBold,
                     color = Color.Black,
                     style = TextStyle(
@@ -119,7 +117,7 @@ fun SignUpPage(){
                 )
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
-                    text = "Register to continue",
+                    text = "Log in to continue",
                     fontFamily = poppinsRegular,
                     color = Color.Black,
                     style = TextStyle(
@@ -214,50 +212,8 @@ fun SignUpPage(){
                     ),
                     textStyle = TextStyle(fontSize = 14.sp)
                 )
-                Spacer(modifier = Modifier.height(17.dp))
-                Text(
-                    text = "Confirm Password",
-                    fontFamily = poppinsRegular,
-                    color = Color.Black,
-                    style = TextStyle(
-                        fontSize = 15.sp,
-                        textAlign = TextAlign.Start
-                    )
-                )
-                Spacer(modifier = Modifier.height(5.dp))
-                TextField(
-                    value = confirmPassword,
-                    onValueChange = { confirmPassword = it },
-                    placeholder = {
-                        Text(
-                            text = "***********",
-                            color = Color(0xff9facdc),
-                            fontFamily = poppinsRegular,
-                            style = TextStyle(fontSize = 14.sp)
-                        )
-                    },
-                    singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp)
-                        .border(
-                            width = 1.dp,
-                            color = Color(0xff9facdc),
-                            shape = RoundedCornerShape(15.dp)
-                        )
-                        .background(color = Color.White),
-                    shape = RoundedCornerShape(15.dp),
-                    colors = TextFieldDefaults.textFieldColors(
-                        containerColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        cursorColor = Color.Black
-                    ),
-                    textStyle = TextStyle(fontSize = 14.sp)
-                )
-                Spacer(modifier = Modifier.height(97.dp))
-                TermsOfServiceText()
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(19.dp))
+                //TODO: add remember me checkbox, and google login functionality(optional)
                 Column(
                     modifier= Modifier
                         .fillMaxWidth()
@@ -272,7 +228,7 @@ fun SignUpPage(){
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text= "Register",
+                        text= "Log In",
                         color= Color.White,
                         fontFamily = poppinsRegular,
                         style = TextStyle(
@@ -282,61 +238,23 @@ fun SignUpPage(){
                     )
                 }
                 Spacer(modifier = Modifier.height(22.dp))
-                LoginText()
+                SignUpText()
             }
-
         }
     }
 }
 
 @Composable
-fun TermsOfServiceText() {
-    val poppinsRegular= FontFamily(
-        Font(R.font.poppinsregular)
-    )
-    val annotatedString = buildAnnotatedString {
-        append("By continuing, you agree to our ")
-
-        pushStringAnnotation(tag = "TERMS", annotation = "terms://service")
-        withStyle(
-            style = SpanStyle(
-                color = Color(0xFFFF91A4),
-                fontFamily = poppinsRegular
-            )
-        ) {
-            append("Terms of Service")
-        }
-        pop()
-    }
-
-    ClickableText(
-        text = annotatedString,
-        onClick = { offset ->
-            annotatedString.getStringAnnotations(tag = "TERMS", start = offset, end = offset)
-                .firstOrNull()?.let {
-                    println("Terms of Service clicked!")
-                }
-        },
-        style = TextStyle(
-            fontSize = 15.sp,
-            color = Color.Black,
-            textAlign = TextAlign.Start,
-            fontFamily = poppinsRegular
-        )
-    )
-}
-
-@Composable
-fun LoginText() {
+fun SignUpText() {
     val poppinsRegular = FontFamily(
         Font(R.font.poppinsregular)
     )
     val context = LocalContext.current
 
     val annotatedString = buildAnnotatedString {
-        append("Already a member? ")
+        append("Don't have an account? ")
 
-        pushStringAnnotation(tag = "LOGIN", annotation = "login://action")
+        pushStringAnnotation(tag = "SIGNUP", annotation = "signup://action")
         withStyle(
             style = SpanStyle(
                 color = Color(0xFFFF91A4),
@@ -344,7 +262,7 @@ fun LoginText() {
                 fontSize = 14.sp
             )
         ) {
-            append("Login")
+            append("Sign Up")
         }
         pop()
     }
@@ -352,10 +270,9 @@ fun LoginText() {
     ClickableText(
         text = annotatedString,
         onClick = { offset ->
-            annotatedString.getStringAnnotations(tag = "LOGIN", start = offset, end = offset)
+            annotatedString.getStringAnnotations(tag = "SIGNUP", start = offset, end = offset)
                 .firstOrNull()?.let {
-                    // Navigate to LogInActivity
-                    context.startActivity(Intent(context, LogInActivity::class.java))
+                    context.startActivity(Intent(context, SignUpActivity::class.java))
                 }
         },
         style = TextStyle(
