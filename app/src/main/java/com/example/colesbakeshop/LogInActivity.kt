@@ -37,6 +37,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
@@ -187,7 +188,7 @@ fun LogInPage(){
                     onValueChange = { password = it },
                     placeholder = {
                         Text(
-                            text = "***********",
+                            text = "**********",
                             color = Color(0xff9facdc),
                             fontFamily = poppinsRegular,
                             style = TextStyle(fontSize = 14.sp)
@@ -210,7 +211,9 @@ fun LogInPage(){
                         unfocusedIndicatorColor = Color.Transparent,
                         cursorColor = Color.Black
                     ),
-                    textStyle = TextStyle(fontSize = 14.sp)
+                    textStyle = TextStyle(fontSize = 14.sp),
+                    visualTransformation = PasswordVisualTransformation()
+
                 )
                 Spacer(modifier = Modifier.height(19.dp))
                 //TODO: add remember me checkbox, and google login functionality(optional)

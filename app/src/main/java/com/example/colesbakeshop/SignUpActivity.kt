@@ -39,6 +39,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
@@ -212,7 +213,9 @@ fun SignUpPage(){
                         unfocusedIndicatorColor = Color.Transparent,
                         cursorColor = Color.Black
                     ),
-                    textStyle = TextStyle(fontSize = 14.sp)
+                    textStyle = TextStyle(fontSize = 14.sp),
+                    visualTransformation = PasswordVisualTransformation()
+
                 )
                 Spacer(modifier = Modifier.height(17.dp))
                 Text(
@@ -253,7 +256,9 @@ fun SignUpPage(){
                         unfocusedIndicatorColor = Color.Transparent,
                         cursorColor = Color.Black
                     ),
-                    textStyle = TextStyle(fontSize = 14.sp)
+                    textStyle = TextStyle(fontSize = 14.sp),
+                    visualTransformation = PasswordVisualTransformation()
+
                 )
                 Spacer(modifier = Modifier.height(97.dp))
                 TermsOfServiceText()
