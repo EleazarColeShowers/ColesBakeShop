@@ -3,6 +3,7 @@ package com.example.colesbakeshop
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Space
+import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
@@ -45,6 +46,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.colesbakeshop.ui.theme.ColesBakeShopTheme
+import com.google.firebase.auth.FirebaseAuth
 
 class SignUpActivity : androidx.activity.ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,23 +71,26 @@ class SignUpActivity : androidx.activity.ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignUpPage(){
+fun SignUpPage() {
     val comforter1 = FontFamily(
         Font(R.font.comforter1)
     )
-    val poppinsBold= FontFamily(
+    val poppinsBold = FontFamily(
         Font(R.font.poppinsbold)
     )
-    val poppinsRegular= FontFamily(
+    val poppinsRegular = FontFamily(
         Font(R.font.poppinsregular)
     )
+
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
 
-    val context= LocalContext.current
-    Column (
-        modifier= Modifier
+    val context = LocalContext.current
+    val auth = FirebaseAuth.getInstance()
+
+    Column(
+        modifier = Modifier
             .fillMaxSize(0.9f)
             .padding(top = 30.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -104,7 +109,7 @@ fun SignUpPage(){
 
         Column(
             modifier = Modifier.width(300.dp),
-            ) {
+        ) {
             Column(
                 horizontalAlignment = Alignment.Start
             ) {
@@ -131,169 +136,164 @@ fun SignUpPage(){
             }
             Spacer(modifier = Modifier.height(39.dp))
 
-            Column(
-                modifier= Modifier.fillMaxWidth()
-            ){
-                Text(
-                    text = "Email",
-                    fontFamily = poppinsRegular,
-                    color = Color.Black,
-                    style = TextStyle(
-                        fontSize = 15.sp,
-                        textAlign = TextAlign.Start
-                    )
-                )
-                Spacer(modifier = Modifier.height(5.dp))
-                TextField(
-                    value = email,
-                    onValueChange = { email = it },
-                    placeholder = {
-                        Text(
-                            text = "example@gmail.com",
-                            color = Color(0xff9facdc),
-                            fontFamily = poppinsRegular,
-                            style = TextStyle(fontSize = 14.sp)
-                        )
-                    },
-                    singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp)
-                        .border(
-                            width = 1.dp,
-                            color = Color(0xff9facdc),
-                            shape = RoundedCornerShape(15.dp)
-                        )
-                        .background(color = Color.White),
-                    shape = RoundedCornerShape(15.dp),
-                    colors = TextFieldDefaults.textFieldColors(
-                        containerColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        cursorColor = Color.Black
-                    ),
-                    textStyle = TextStyle(fontSize = 14.sp)
-                )
-                Spacer(modifier = Modifier.height(17.dp))
-                Text(
-                    text = "Password",
-                    fontFamily = poppinsRegular,
-                    color = Color.Black,
-                    style = TextStyle(
-                        fontSize = 15.sp,
-                        textAlign = TextAlign.Start
-                    )
-                )
-                Spacer(modifier = Modifier.height(5.dp))
-                TextField(
-                    value = password,
-                    onValueChange = { password = it },
-                    placeholder = {
-                        Text(
-                            text = "***********",
-                            color = Color(0xff9facdc),
-                            fontFamily = poppinsRegular,
-                            style = TextStyle(fontSize = 14.sp)
-                        )
-                    },
-                    singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp)
-                        .border(
-                            width = 1.dp,
-                            color = Color(0xff9facdc),
-                            shape = RoundedCornerShape(15.dp)
-                        )
-                        .background(color = Color.White),
-                    shape = RoundedCornerShape(15.dp),
-                    colors = TextFieldDefaults.textFieldColors(
-                        containerColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        cursorColor = Color.Black
-                    ),
-                    textStyle = TextStyle(fontSize = 14.sp),
-                    visualTransformation = PasswordVisualTransformation()
-
-                )
-                Spacer(modifier = Modifier.height(17.dp))
-                Text(
-                    text = "Confirm Password",
-                    fontFamily = poppinsRegular,
-                    color = Color.Black,
-                    style = TextStyle(
-                        fontSize = 15.sp,
-                        textAlign = TextAlign.Start
-                    )
-                )
-                Spacer(modifier = Modifier.height(5.dp))
-                TextField(
-                    value = confirmPassword,
-                    onValueChange = { confirmPassword = it },
-                    placeholder = {
-                        Text(
-                            text = "***********",
-                            color = Color(0xff9facdc),
-                            fontFamily = poppinsRegular,
-                            style = TextStyle(fontSize = 14.sp)
-                        )
-                    },
-                    singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp)
-                        .border(
-                            width = 1.dp,
-                            color = Color(0xff9facdc),
-                            shape = RoundedCornerShape(15.dp)
-                        )
-                        .background(color = Color.White),
-                    shape = RoundedCornerShape(15.dp),
-                    colors = TextFieldDefaults.textFieldColors(
-                        containerColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        cursorColor = Color.Black
-                    ),
-                    textStyle = TextStyle(fontSize = 14.sp),
-                    visualTransformation = PasswordVisualTransformation()
-
-                )
-                Spacer(modifier = Modifier.height(97.dp))
-                TermsOfServiceText()
-                Spacer(modifier = Modifier.height(10.dp))
-                Column(
-                    modifier= Modifier
-                        .fillMaxWidth()
-                        .height(38.dp)
-                        .background(color = Color(0xff9facdc), shape = RoundedCornerShape(15.dp))
-                        .align(Alignment.CenterHorizontally)
-                        .clickable {
-                            val intent = Intent(context, SignUpActivity::class.java)
-                            context.startActivity(intent)
-                        },
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
+            // Email TextField
+            TextField(
+                value = email,
+                onValueChange = { email = it },
+                placeholder = {
                     Text(
-                        text= "Register",
-                        color= Color.White,
+                        text = "example@gmail.com",
+                        color = Color(0xff9facdc),
                         fontFamily = poppinsRegular,
-                        style = TextStyle(
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Medium
-                        )
+                        style = TextStyle(fontSize = 14.sp)
                     )
-                }
-                Spacer(modifier = Modifier.height(22.dp))
-                LoginText()
-            }
+                },
+                singleLine = true,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp)
+                    .border(
+                        width = 1.dp,
+                        color = Color(0xff9facdc),
+                        shape = RoundedCornerShape(15.dp)
+                    )
+                    .background(color = Color.White),
+                shape = RoundedCornerShape(15.dp),
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    cursorColor = Color.Black
+                ),
+                textStyle = TextStyle(fontSize = 14.sp)
+            )
 
+            Spacer(modifier = Modifier.height(17.dp))
+
+            // Password TextField
+            TextField(
+                value = password,
+                onValueChange = { password = it },
+                placeholder = {
+                    Text(
+                        text = "***********",
+                        color = Color(0xff9facdc),
+                        fontFamily = poppinsRegular,
+                        style = TextStyle(fontSize = 14.sp)
+                    )
+                },
+                singleLine = true,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp)
+                    .border(
+                        width = 1.dp,
+                        color = Color(0xff9facdc),
+                        shape = RoundedCornerShape(15.dp)
+                    )
+                    .background(color = Color.White),
+                shape = RoundedCornerShape(15.dp),
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    cursorColor = Color.Black
+                ),
+                textStyle = TextStyle(fontSize = 14.sp),
+                visualTransformation = PasswordVisualTransformation()
+            )
+
+            Spacer(modifier = Modifier.height(17.dp))
+
+            // Confirm Password TextField
+            TextField(
+                value = confirmPassword,
+                onValueChange = { confirmPassword = it },
+                placeholder = {
+                    Text(
+                        text = "***********",
+                        color = Color(0xff9facdc),
+                        fontFamily = poppinsRegular,
+                        style = TextStyle(fontSize = 14.sp)
+                    )
+                },
+                singleLine = true,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp)
+                    .border(
+                        width = 1.dp,
+                        color = Color(0xff9facdc),
+                        shape = RoundedCornerShape(15.dp)
+                    )
+                    .background(color = Color.White),
+                shape = RoundedCornerShape(15.dp),
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    cursorColor = Color.Black
+                ),
+                textStyle = TextStyle(fontSize = 14.sp),
+                visualTransformation = PasswordVisualTransformation()
+            )
+
+            Spacer(modifier = Modifier.height(97.dp))
+            TermsOfServiceText()
+            Spacer(modifier = Modifier.height(10.dp))
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(38.dp)
+                    .background(color = Color(0xff9facdc), shape = RoundedCornerShape(15.dp))
+                    .align(Alignment.CenterHorizontally)
+                    .clickable {
+                        if (password == confirmPassword) {
+                            auth.createUserWithEmailAndPassword(email, password)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        Toast.makeText(
+                                            context,
+                                            "Registration Successful!",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        val intent = Intent(context, MainActivity::class.java)
+                                        context.startActivity(intent)
+                                    } else {
+                                        Toast.makeText(
+                                            context,
+                                            "Registration Failed: ${task.exception?.message}",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                }
+                        } else {
+                            Toast.makeText(
+                                context,
+                                "Passwords do not match!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    },
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "Register",
+                    color = Color.White,
+                    fontFamily = poppinsRegular,
+                    style = TextStyle(
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                )
+            }
+            Spacer(modifier = Modifier.height(22.dp))
+            LoginText()
         }
     }
 }
-
 @Composable
 fun TermsOfServiceText() {
     val poppinsRegular= FontFamily(

@@ -2,6 +2,7 @@ package com.example.colesbakeshop
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
@@ -43,6 +44,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.colesbakeshop.ui.theme.ColesBakeShopTheme
+import com.google.firebase.auth.FirebaseAuth
 
 class LogInActivity : androidx.activity.ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -218,21 +220,50 @@ fun LogInPage(){
                 Spacer(modifier = Modifier.height(19.dp))
                 //TODO: add remember me checkbox, and google login functionality(optional)
                 Column(
-                    modifier= Modifier
+                    modifier = Modifier
                         .fillMaxWidth()
                         .height(38.dp)
                         .background(color = Color(0xff9facdc), shape = RoundedCornerShape(15.dp))
                         .align(Alignment.CenterHorizontally)
                         .clickable {
-                            val intent = Intent(context, SignUpActivity::class.java)
-                            context.startActivity(intent)
+                            // Firebase Authentication Logic
+                            if (email.isNotEmpty() && password.isNotEmpty()) {
+                                val auth = FirebaseAuth.getInstance()
+                                auth.signInWithEmailAndPassword(email, password)
+                                    .addOnCompleteListener { task ->
+                                        if (task.isSuccessful) {
+                                            // Sign-in successful
+                                            Toast.makeText(
+                                                context,
+                                                "Log In successful!",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                            // Navigate to the next activity
+                                            val intent = Intent(context, MainActivity::class.java)
+                                            context.startActivity(intent)
+                                        } else {
+                                            // Sign-in failed
+                                            Toast.makeText(
+                                                context,
+                                                task.exception?.message ?: "Log In failed!",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                    }
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    "Please fill in both email and password fields.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         },
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text= "Log In",
-                        color= Color.White,
+                        text = "Log In",
+                        color = Color.White,
                         fontFamily = poppinsRegular,
                         style = TextStyle(
                             fontSize = 18.sp,
