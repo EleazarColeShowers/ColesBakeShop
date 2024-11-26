@@ -81,6 +81,7 @@ fun SignUpPage() {
     val poppinsRegular = FontFamily(
         Font(R.font.poppinsregular)
     )
+    var buttonColor by remember { mutableStateOf(Color(0xff9facdc)) }
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -246,9 +247,10 @@ fun SignUpPage() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(38.dp)
-                    .background(color = Color(0xff9facdc), shape = RoundedCornerShape(15.dp))
+                    .background(color = buttonColor, shape = RoundedCornerShape(15.dp))
                     .align(Alignment.CenterHorizontally)
                     .clickable {
+                        buttonColor = Color(0xFFFF91A4)
                         if (password == confirmPassword) {
                             auth.createUserWithEmailAndPassword(email, password)
                                 .addOnCompleteListener { task ->
@@ -359,7 +361,6 @@ fun LoginText() {
         onClick = { offset ->
             annotatedString.getStringAnnotations(tag = "LOGIN", start = offset, end = offset)
                 .firstOrNull()?.let {
-                    // Navigate to LogInActivity
                     context.startActivity(Intent(context, LogInActivity::class.java))
                 }
         },

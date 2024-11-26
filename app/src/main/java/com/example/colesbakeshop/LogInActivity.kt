@@ -81,7 +81,7 @@ fun LogInPage(){
     )
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var confirmPassword by remember { mutableStateOf("") }
+    var buttonColor by remember { mutableStateOf(Color(0xff9facdc)) }
 
     val context= LocalContext.current
     Column (
@@ -223,26 +223,23 @@ fun LogInPage(){
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(38.dp)
-                        .background(color = Color(0xff9facdc), shape = RoundedCornerShape(15.dp))
+                        .background(color = buttonColor, shape = RoundedCornerShape(15.dp))
                         .align(Alignment.CenterHorizontally)
                         .clickable {
-                            // Firebase Authentication Logic
+                            buttonColor = Color(0xFFFF91A4)
                             if (email.isNotEmpty() && password.isNotEmpty()) {
                                 val auth = FirebaseAuth.getInstance()
                                 auth.signInWithEmailAndPassword(email, password)
                                     .addOnCompleteListener { task ->
                                         if (task.isSuccessful) {
-                                            // Sign-in successful
                                             Toast.makeText(
                                                 context,
                                                 "Log In successful!",
                                                 Toast.LENGTH_SHORT
                                             ).show()
-                                            // Navigate to the next activity
                                             val intent = Intent(context, MainActivity::class.java)
                                             context.startActivity(intent)
                                         } else {
-                                            // Sign-in failed
                                             Toast.makeText(
                                                 context,
                                                 task.exception?.message ?: "Log In failed!",
