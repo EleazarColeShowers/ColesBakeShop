@@ -283,7 +283,7 @@ fun CategoryItem(text: String, navController: NavController, route: String, isSe
         modifier = Modifier
             .width(74.dp)
             .background(
-                color = if (isSelected) Color.Black else Color.White,
+                color = if (isSelected) Color(0xFFFF91A4) else Color.White,
                 shape = RoundedCornerShape(12.dp)
             )
             .border(width = 1.dp, color = Color(0xff9facdc), shape = RoundedCornerShape(12.dp))

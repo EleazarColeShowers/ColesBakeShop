@@ -112,7 +112,7 @@ fun ProductDetailsScreen(
                     Modifier
                         .size(28.dp)
                         .clickable { context?.finish() }
-                        .background(color = Color.Black, shape = RoundedCornerShape(12.dp)),
+                        .background(color = Color(0xff9facdc), shape = RoundedCornerShape(12.dp)),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
@@ -129,7 +129,7 @@ fun ProductDetailsScreen(
                     modifier = Modifier
                         .height(30.dp)
                         .width(160.dp)
-                        .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(12.dp))
+                        .border(width = 1.dp, color = Color(0xff9facdc), shape = RoundedCornerShape(12.dp))
                         .background(
                             color = Color.White,
                             shape = RoundedCornerShape(12.dp)
@@ -187,7 +187,7 @@ fun ProductDetailsScreen(
                     Column(
                         Modifier
                             .size(33.85.dp)
-                            .background(color = Color.Black, shape = CircleShape)
+                            .background(color = Color(0xFFFF91A4), shape = CircleShape)
                             .clickable {
                                 if (quantity > 1) {
                                     quantity--
@@ -209,7 +209,7 @@ fun ProductDetailsScreen(
                     Column(
                         Modifier
                             .size(33.85.dp)
-                            .background(color = Color.Black, shape = CircleShape)
+                            .background(color = Color(0xFFFF91A4), shape = CircleShape)
                             .clickable {
                                 quantity++
                                 calculatedPrice = initialPrice * quantity
@@ -235,7 +235,7 @@ fun ProductDetailsScreen(
                     .fillMaxWidth()
                     .height(54.dp)
                     .align(Alignment.CenterHorizontally)
-                    .background(color = Color.Black, shape = RoundedCornerShape(25.dp)),
+                    .background(Color(0xff9facdc), shape = RoundedCornerShape(25.dp)),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ){
