@@ -2,6 +2,7 @@ package com.example.colesbakeshop
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -235,7 +236,11 @@ fun ProductDetailsScreen(
                     .fillMaxWidth()
                     .height(54.dp)
                     .align(Alignment.CenterHorizontally)
-                    .background(Color(0xFFFF91A4), shape = RoundedCornerShape(25.dp)),
+                    .background(Color(0xFFFF91A4), shape = RoundedCornerShape(25.dp))
+                    .clickable {
+                        val intent= Intent(context, CartActivity::class.java)
+                        context?.startActivity(intent)
+                    },
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ){

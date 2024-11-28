@@ -124,6 +124,7 @@ fun HomePage() {
         }
     }
 }
+
 @Composable
 fun isCakeDetailsPage(navController: NavController): Boolean {
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
@@ -158,7 +159,7 @@ fun WelcomeBar() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Welcome to Cole's Bakeshop",
+                    text = "Home of Sweet Treats",
                 color = Color.White,
                 style = TextStyle(
                         fontWeight = FontWeight.Bold,
