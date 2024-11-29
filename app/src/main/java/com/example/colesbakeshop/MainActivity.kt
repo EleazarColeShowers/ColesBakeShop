@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -83,6 +84,7 @@ class MainActivity : androidx.activity.ComponentActivity() {
 fun HomePage() {
     val searchQuery = remember { mutableStateOf("") }
     val navController = rememberNavController()
+    val selectedCategory = remember { mutableStateOf("Cakes") } // Shared state
 
     Scaffold(
         bottomBar = {
@@ -95,7 +97,7 @@ fun HomePage() {
         Column(
             Modifier
                 .fillMaxSize()
-                .padding(innerPadding) ,
+                .padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             if (!isCakeDetailsPage(navController)) {
@@ -104,23 +106,30 @@ fun HomePage() {
 
                 SearchBar(
                     hint = "Search for Cupcakes, Cakes ...",
-                    onTextChange = { query ->
-                        searchQuery.value = query
-                    },
+                    textState = searchQuery,
                     onSearchClicked = {
                         println("Search for: ${searchQuery.value}")
                     }
                 )
+                Spacer(modifier = Modifier.height(14.dp))
+                Categories(selectedCategory)
+
+
+                when (selectedCategory.value) {
+                    "Cakes" -> CakePage(navController, searchQuery.value)
+                    "Dessert" -> DessertPage(navController, searchQuery.value)
+                    "Pastries" -> PastriesPage(navController, searchQuery.value)
+                }
+
                 Spacer(modifier = Modifier.height(28.dp))
-                Categories(navController)
                 Spacer(modifier = Modifier.height(29.dp))
             }
 
-            NavHost(navController = navController, startDestination = "Cake") {
-                composable("Cake") { CakePage(navController) }
-                composable("Dessert") { DessertPage(navController) }
-                composable("Pastries") { PastriesPage(navController) }
-            }
+//            NavHost(navController = navController, startDestination = "Cake") {
+//                composable("Cake") { CakePage(navController, searchQuery.value) }
+//                composable("Dessert") { DessertPage(navController, searchQuery.value) }
+//                composable("Pastries") { PastriesPage(navController, searchQuery.value) }
+//            }
         }
     }
 }
@@ -171,7 +180,11 @@ fun WelcomeBar() {
 }
 
 @Composable
-fun SearchBar(hint: String = "Search for Cupcakes, Cakes ...", onTextChange: (String) -> Unit, onSearchClicked: () -> Unit, textState: MutableState<String> = remember { mutableStateOf("") }) {
+fun SearchBar(
+    hint: String = "Search for Cupcakes, Cakes ...",
+    textState: MutableState<String>,
+    onSearchClicked: (String) -> Unit
+) {
     val searchIcon = painterResource(id = R.drawable.search)
     val text = textState.value
 
@@ -190,14 +203,16 @@ fun SearchBar(hint: String = "Search for Cupcakes, Cakes ...", onTextChange: (St
     ) {
         BasicTextField(
             value = text,
-            onValueChange = { textState.value = it },
+            onValueChange = {
+                textState.value = it
+                onSearchClicked(it)
+            },
             textStyle = TextStyle(
                 color = Color.Black,
                 fontSize = 16.sp
             ),
             modifier = Modifier.weight(1f),
             singleLine = true,
-
             decorationBox = { innerTextField ->
                 if (text.isEmpty()) {
                     Text(
@@ -214,7 +229,7 @@ fun SearchBar(hint: String = "Search for Cupcakes, Cakes ...", onTextChange: (St
             ),
             keyboardActions = KeyboardActions(
                 onSearch = {
-                    onSearchClicked()
+                    onSearchClicked(text)
                 }
             )
         )
@@ -229,10 +244,9 @@ fun SearchBar(hint: String = "Search for Cupcakes, Cakes ...", onTextChange: (St
     }
 }
 
-@Composable
-fun Categories(navController: NavController) {
-    var selectedCategory by remember { mutableStateOf<String?>(null) }
 
+@Composable
+fun Categories(selectedCategory: MutableState<String>) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxWidth()
@@ -254,31 +268,25 @@ fun Categories(navController: NavController) {
         ) {
             CategoryItem(
                 text = "Cakes",
-                navController = navController,
-                route = "cake",
-                isSelected = selectedCategory == "Cakes",
-                onClick = { selectedCategory = "Cakes" }
+                isSelected = selectedCategory.value == "Cakes",
+                onClick = { selectedCategory.value = "Cakes" }
             )
             CategoryItem(
                 text = "Dessert",
-                navController = navController,
-                route = "dessert",
-                isSelected = selectedCategory == "Dessert",
-                onClick = { selectedCategory = "Dessert" }
+                isSelected = selectedCategory.value == "Dessert",
+                onClick = { selectedCategory.value = "Dessert" }
             )
             CategoryItem(
                 text = "Pastries",
-                navController = navController,
-                route = "pastries",
-                isSelected = selectedCategory == "Pastries",
-                onClick = { selectedCategory = "Pastries" }
+                isSelected = selectedCategory.value == "Pastries",
+                onClick = { selectedCategory.value = "Pastries" }
             )
         }
     }
 }
 
 @Composable
-fun CategoryItem(text: String, navController: NavController, route: String, isSelected: Boolean, onClick: () -> Unit) {
+fun CategoryItem(text: String, isSelected: Boolean, onClick: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -289,10 +297,7 @@ fun CategoryItem(text: String, navController: NavController, route: String, isSe
             )
             .border(width = 1.dp, color = Color(0xff9facdc), shape = RoundedCornerShape(12.dp))
             .padding(8.dp)
-            .clickable {
-                onClick()
-                navController.navigate(route)
-            }
+            .clickable { onClick() }
     ) {
         Text(
             text = text,
@@ -306,140 +311,57 @@ fun CategoryItem(text: String, navController: NavController, route: String, isSe
 }
 
 @Composable
-fun CakePage(navController: NavController) {
-    val whippedCreamCake = painterResource(id = R.drawable.whippedcreamcake)
-    val basketCake= painterResource(id = R.drawable.basketcake)
-    val butterIcing= painterResource(id = R.drawable.buttericingcake)
-    val topForwardCake= painterResource(id = R.drawable.topforwardcake)
-    val customizedCake= painterResource(id = R.drawable.customizedcake)
-    val floralButterCream= painterResource(id = R.drawable.floralbuttercream)
-    val classicCreamCake= painterResource(id = R.drawable.classiccreamcake)
-    val fullyWhippedCreamCake= painterResource(id = R.drawable.fullywhipped)
-    val budgetCake= painterResource(id = R.drawable.budgetcake)
-    LazyColumn(modifier = Modifier.fillMaxWidth(0.9f)) {
-        item {
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            CakeItem(
-                basketCake,
-                text = "Basket Cake",
-                price = "₦40,000",
-                description = "A beautifully crafted basket cake perfect for celebrations!",
-                imageResId = R.drawable.basketcake,
-                navController = navController
-            )
-            CakeItem(
-                butterIcing,
-                text = "Butter Icing Cake",
-                price = "₦60,000",
-                description = "A beautifully crafted basket cake perfect for celebrations!",
-                imageResId = R.drawable.buttericingcake,
-                navController = navController
-            )
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            CakeItem(
-                topForwardCake,
-                text = "Top Forward Cake",
-                price = "₦35,000",
-                description = "A beautifully crafted basket cake perfect for celebrations!",
-                imageResId = R.drawable.topforwardcake,
-                navController = navController
-            )
-            CakeItem(
-                whippedCreamCake,
-                text = "Whipped Cream Cake",
-                price = "₦60,000",
-                description = "A beautifully crafted basket cake perfect for celebrations!",
-                imageResId = R.drawable.whippedcreamcake,
-                navController = navController
-            )
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            CakeItem(
-                customizedCake,
-                text = "Customized Cake",
-                price = "₦50,000",
-                description = "A beautifully crafted basket cake perfect for celebrations!",
-                imageResId = R.drawable.customizedcake,
-                navController = navController
-            )
-            CakeItem(
-                floralButterCream,
-                text = "Floral Butter Cream Cake",
-                price = "₦30,000",
-                description = "A beautifully crafted basket cake perfect for celebrations!",
-                imageResId = R.drawable.floralbuttercream,
-                navController = navController
-            )
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            CakeItem(
-                classicCreamCake,
-                text = "Classic Cream Cake",
-                price = "₦55,000",
-                description = "A beautifully crafted basket cake perfect for celebrations!",
-                imageResId = R.drawable.classiccreamcake,
-                navController = navController
-            )
-            CakeItem(
-                fullyWhippedCreamCake,
-                text = "Whipped Cream Birthday Cake",
-                price = "₦60,000",
-                description = "A beautifully crafted basket cake perfect for celebrations!",
-                imageResId = R.drawable.fullywhipped,
-                navController = navController
-            )
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            CakeItem(
-                budgetCake,
-                text = "Budget Cake",
-                price = "₦30,000",
-                description = "A beautifully crafted basket cake perfect for celebrations!",
-                imageResId = R.drawable.budgetcake,
-                navController = navController
-            )
-            CakeItem(
-                basketCake,
-                text = "Custom 3 Layer Cake",
-                price = "₦60,000",
-                description = "A beautifully crafted basket cake perfect for celebrations!",
-                imageResId = R.drawable.basketcake,
-                navController = navController
-            )
-        }
+fun CakePage(navController: NavController, searchQuery: String) {
+    val cakes = listOf(
+        CakeData("Basket Cake", "₦40,000", R.drawable.basketcake),
+        CakeData("Butter Icing Cake", "₦60,000", R.drawable.buttericingcake),
+        CakeData("Top Forward Cake", "₦35,000", R.drawable.topforwardcake),
+        CakeData("Whipped Cream Cake", "₦60,000", R.drawable.whippedcreamcake),
+        CakeData("Customized Cake", "₦50,000", R.drawable.customizedcake),
+        CakeData("Floral Butter Cream Cake", "₦30,000", R.drawable.floralbuttercream),
+        CakeData("Classic Cream Cake", "₦55,000", R.drawable.classiccreamcake),
+        CakeData("Whipped Cream Birthday Cake", "₦60,000", R.drawable.fullywhipped),
+        CakeData("Budget Cake", "₦30,000", R.drawable.budgetcake),
+        CakeData("Custom 3 Layer Cake", "₦60,000", R.drawable.basketcake)
+    )
+
+    val filteredCakes = if (searchQuery.isEmpty()) cakes else cakes.filter {
+        it.name.contains(searchQuery, ignoreCase = true)
     }
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth(0.9f)
+            .padding(horizontal = 16.dp)
+    ) {
+        // Group cakes into rows of 2 using chunked
+        items(filteredCakes.chunked(2)) { cakeRow ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                cakeRow.forEach { cake ->
+                    CakeItem(
+                        painter = painterResource(id = cake.imageResId),
+                        text = cake.name,
+                        price = cake.price,
+                        description = "A beautifully crafted cake perfect for celebrations!",
+                        navController = navController,
+                        imageResId = cake.imageResId
+                    )
+                }
+                // Add a spacer for uneven rows
+                if (cakeRow.size < 2) {
+                    Spacer(modifier = Modifier.width(130.dp))
+                }
+            }
+        }
     }
 }
+
+
+data class CakeData(val name: String, val price: String, val imageResId: Int)
 
 @Composable
 fun CakeItem(painter: Painter, text:String, price: String, navController: NavController, description: String, imageResId: Int) {
@@ -499,31 +421,44 @@ fun CakeItem(painter: Painter, text:String, price: String, navController: NavCon
 }
 
 @Composable
-fun DessertPage(navController: NavController){
-    val carrotDessert = painterResource(id = R.drawable.carrotcakedessert)
-    val cakeParfait= painterResource(id = R.drawable.cakeparfait)
-    Column(modifier = Modifier.fillMaxWidth(0.9f)) {
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            DessertItem(carrotDessert, text = "Carrot Cake", price = "₦4,000")
-            DessertItem(cakeParfait, text = "Cake Parfait", price = "₦4,500")
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            DessertItem(carrotDessert, text = "Mini Foil Cake", price = "₦3,000")
-            DessertItem(carrotDessert, text = "Cake Tub", price = "₦3,800")
+fun DessertPage(navController: NavController, searchQuery: String) {
+    val desserts = listOf(
+        DessertData("Carrot Cake", "₦4,000", R.drawable.carrotcakedessert),
+        DessertData("Cake Parfait", "₦4,500", R.drawable.cakeparfait),
+        DessertData("Mini Foil Cake", "₦3,000", R.drawable.carrotcakedessert),
+        DessertData("Cake Tub", "₦3,800", R.drawable.carrotcakedessert)
+    )
+
+    val filteredDesserts = if (searchQuery.isEmpty()) desserts else desserts.filter {
+        it.name.contains(searchQuery, ignoreCase = true)
+    }
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+    ) {
+        items(filteredDesserts.chunked(2)) { dessertRow ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                dessertRow.forEach { dessert ->
+                    DessertItem(
+                        painter = painterResource(id = dessert.imageResId),
+                        text = dessert.name,
+                        price = dessert.price
+                    )
+                }
+                if (dessertRow.size < 2) {
+                    Spacer(modifier = Modifier.width(130.dp))
+                }
+            }
         }
     }
 }
+data class DessertData(val name: String, val price: String, val imageResId: Int)
 
 @Composable
 fun DessertItem(painter: Painter, text:String, price: String) {
@@ -572,30 +507,46 @@ fun DessertItem(painter: Painter, text:String, price: String) {
 }
 
 @Composable
-fun PastriesPage(navController: NavController){
-    val boxOfFour= painterResource(id = R.drawable.boxoffourdonuts)
-    Column(modifier = Modifier.fillMaxWidth(0.9f)) {
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            PastriesItem(boxOfFour, text = "Box Of 4 Milky Donuts", price = "₦7,000")
-            PastriesItem(boxOfFour, text = "Box Of 6 Milky Donuts", price = "₦11,000")
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            PastriesItem(boxOfFour, text = "Box of 8 Milky Donuts", price = "₦15,000")
-            PastriesItem(boxOfFour, text = "Cake Tub", price = "₦3,800")
+fun PastriesPage(navController: NavController, searchQuery: String) {
+    val pastries = listOf(
+        PastryData("Box Of 4 Milky Donuts", "₦7,000", R.drawable.boxoffourdonuts),
+        PastryData("Box Of 6 Milky Donuts", "₦11,000", R.drawable.boxoffourdonuts),
+        PastryData("Box Of 8 Milky Donuts", "₦15,000", R.drawable.boxoffourdonuts),
+        PastryData("Cake Tub", "₦3,800", R.drawable.boxoffourdonuts)
+    )
+
+    val filteredPastries = if (searchQuery.isEmpty()) pastries else pastries.filter {
+        it.name.contains(searchQuery, ignoreCase = true)
+    }
+
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+    ) {
+        items(filteredPastries.chunked(2)) { pastryRow ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                pastryRow.forEach { pastry ->
+                    PastriesItem(
+                        painter = painterResource(id = pastry.imageResId),
+                        text = pastry.name,
+                        price = pastry.price
+                    )
+                }
+                if (pastryRow.size < 2) {
+                    Spacer(modifier = Modifier.width(130.dp))
+                }
+            }
         }
     }
 }
+
+data class PastryData(val name: String, val price: String, val imageResId: Int)
 
 @Composable
 fun PastriesItem(painter: Painter, text:String, price: String) {

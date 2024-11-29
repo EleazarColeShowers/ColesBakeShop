@@ -70,9 +70,7 @@ fun CartPage() {
 
                 SearchBar(
                     hint = "Search My Order History",
-                    onTextChange = { query ->
-                        searchQuery.value = query
-                    },
+                    textState = searchQuery,
                     onSearchClicked = {
                         println("Search for: ${searchQuery.value}")
                     }
