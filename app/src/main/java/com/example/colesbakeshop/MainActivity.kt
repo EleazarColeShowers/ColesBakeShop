@@ -197,7 +197,7 @@ fun SearchBar(
                 Color(0xffffffff),
                 shape = RoundedCornerShape(12.dp)
             )
-            .border(2.dp, Color(0xff9facdc), RoundedCornerShape(18.dp)) // Darker pink border
+            .border(2.dp, Color(0xff9facdc), RoundedCornerShape(18.dp))
             .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -324,7 +324,6 @@ fun CakePage(navController: NavController, searchQuery: String) {
         CakeData("Budget Cake", "₦30,000", R.drawable.budgetcake),
         CakeData("Custom 3 Layer Cake", "₦60,000", R.drawable.basketcake)
     )
-
     val filteredCakes = if (searchQuery.isEmpty()) cakes else cakes.filter {
         it.name.contains(searchQuery, ignoreCase = true)
     }
@@ -333,7 +332,6 @@ fun CakePage(navController: NavController, searchQuery: String) {
             .fillMaxWidth(0.9f)
             .padding(horizontal = 16.dp)
     ) {
-        // Group cakes into rows of 2 using chunked
         items(filteredCakes.chunked(2)) { cakeRow ->
             Row(
                 modifier = Modifier
@@ -379,7 +377,6 @@ fun CakeItem(painter: Painter, text:String, price: String, navController: NavCon
                 shape = RoundedCornerShape(12.dp)
             )
             .clickable {
-                // Create and launch the intent to start ProductDetailsActivity
                 val intent = Intent(context, ProductDetailsActivity::class.java).apply {
                     putExtra("itemName", text)
                     putExtra("itemPrice", price)

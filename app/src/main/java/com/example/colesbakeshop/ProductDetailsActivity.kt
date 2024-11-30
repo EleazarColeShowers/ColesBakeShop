@@ -79,7 +79,7 @@ class ProductDetailsActivity : androidx.activity.ComponentActivity() {
 @Composable
 fun ProductDetailsScreen(
     itemName: String,
-    itemPrice: String, // Price passed as a String
+    itemPrice: String,
     itemDescription: String,
     itemImage: Int
 ) {
@@ -238,7 +238,13 @@ fun ProductDetailsScreen(
                     .align(Alignment.CenterHorizontally)
                     .background(Color(0xFFFF91A4), shape = RoundedCornerShape(25.dp))
                     .clickable {
-                        val intent= Intent(context, CartActivity::class.java)
+                        val intent = Intent(context, CartActivity::class.java).apply {
+                            putExtra("itemName", itemName)
+                            putExtra("itemPrice", calculatedPrice.toString())
+                            putExtra("itemDescription", itemDescription)
+                            putExtra("itemQuantity", quantity)
+                            putExtra("itemImage", itemImage)
+                        }
                         context?.startActivity(intent)
                     },
                 horizontalAlignment = Alignment.CenterHorizontally,
