@@ -160,12 +160,12 @@ fun SignUpPage() {
                     )
                     .background(color = Color.White),
                 shape = RoundedCornerShape(15.dp),
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    cursorColor = Color.Black
-                ),
+//                colors = TextFieldDefaults.textFieldColors(
+//                    containerColor = Color.Transparent,
+//                    focusedIndicatorColor = Color.Transparent,
+//                    unfocusedIndicatorColor = Color.Transparent,
+//                    cursorColor = Color.Black
+//                ),
                 textStyle = TextStyle(fontSize = 14.sp)
             )
 
@@ -194,12 +194,12 @@ fun SignUpPage() {
                     )
                     .background(color = Color.White),
                 shape = RoundedCornerShape(15.dp),
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    cursorColor = Color.Black
-                ),
+//                colors = TextFieldDefaults.textFieldColors(
+//                    containerColor = Color.Transparent,
+//                    focusedIndicatorColor = Color.Transparent,
+//                    unfocusedIndicatorColor = Color.Transparent,
+//                    cursorColor = Color.Black
+//                ),
                 textStyle = TextStyle(fontSize = 14.sp),
                 visualTransformation = PasswordVisualTransformation()
             )
@@ -229,12 +229,12 @@ fun SignUpPage() {
                     )
                     .background(color = Color.White),
                 shape = RoundedCornerShape(15.dp),
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    cursorColor = Color.Black
-                ),
+//                colors = TextFieldDefaults.textFieldColors(
+//                    containerColor = Color.Transparent,
+//                    focusedIndicatorColor = Color.Transparent,
+//                    unfocusedIndicatorColor = Color.Transparent,
+//                    cursorColor = Color.Black
+//                ),
                 textStyle = TextStyle(fontSize = 14.sp),
                 visualTransformation = PasswordVisualTransformation()
             )

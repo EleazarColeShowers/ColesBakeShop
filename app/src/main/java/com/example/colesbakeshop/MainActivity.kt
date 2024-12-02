@@ -84,14 +84,25 @@ class MainActivity : androidx.activity.ComponentActivity() {
 fun HomePage() {
     val searchQuery = remember { mutableStateOf("") }
     val navController = rememberNavController()
-    val selectedCategory = remember { mutableStateOf("Cakes") } // Shared state
+    val selectedCategory = remember { mutableStateOf("Cakes") }
+    val context= LocalContext.current
 
     Scaffold(
         bottomBar = {
             BottomBar(
                 Modifier
-                    .fillMaxWidth()
-            )
+                    .fillMaxWidth(),
+                onHomeClick = {
+                    val intent= Intent(context,MainActivity::class.java )
+                    context.startActivity(intent)
+                },
+                onCartClick = {
+                    val intent= Intent(context,CartActivity::class.java )
+                    context.startActivity(intent)
+                },
+                onMailClick = { /* Handle Mail navigation */ },
+                onPersonClick = { /* Handle profile navigation */ },
+                )
         }
     ) { innerPadding ->
         Column(
@@ -592,11 +603,20 @@ fun PastriesItem(painter: Painter, text:String, price: String) {
 }
 
 @Composable
-fun BottomBar(modifier: Modifier = Modifier) {
+fun BottomBar(
+    modifier: Modifier = Modifier,
+    onHomeClick: () -> Unit,
+    onCartClick: () -> Unit,
+    onMailClick: () -> Unit,
+    onPersonClick: () -> Unit
+) {
     val home = painterResource(id = R.drawable.homeicon)
     val cart = painterResource(id = R.drawable.carticon)
     val mail = painterResource(id = R.drawable.mail)
     val person = painterResource(id = R.drawable.person)
+
+    // State to track the selected icon
+    var selectedIcon by remember { mutableStateOf("home") }
 
     Column(
         Modifier
@@ -619,10 +639,42 @@ fun BottomBar(modifier: Modifier = Modifier) {
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(painter = home, contentDescription = "Home Icon", tint = Color(0xff9facdc))
-                Icon(painter = cart, contentDescription = "Cart Icon", tint = Color(0xff9facdc))
-                Icon(painter = mail, contentDescription = "Mail Icon", tint = Color(0xff9facdc))
-                Icon(painter = person, contentDescription = "Person Icon", tint = Color(0xff9facdc))
+                Icon(
+                    painter = home,
+                    contentDescription = "Home Icon",
+                    tint = if (selectedIcon == "home") Color(0xFFFF91A4) else Color(0xff9facdc),
+                    modifier = Modifier.clickable {
+                        selectedIcon = "home"
+                        onHomeClick()
+                    }
+                )
+                Icon(
+                    painter = cart,
+                    contentDescription = "Cart Icon",
+                    tint = if (selectedIcon == "cart") Color(0xFFFF91A4) else Color(0xff9facdc),
+                    modifier = Modifier.clickable {
+                        selectedIcon = "cart"
+                        onCartClick()
+                    }
+                )
+                Icon(
+                    painter = mail,
+                    contentDescription = "Mail Icon",
+                    tint = if (selectedIcon == "mail") Color(0xFFFF91A4) else Color(0xff9facdc),
+                    modifier = Modifier.clickable {
+                        selectedIcon = "mail"
+                        onMailClick()
+                    }
+                )
+                Icon(
+                    painter = person,
+                    contentDescription = "Person Icon",
+                    tint = if (selectedIcon == "person") Color(0xFFFF91A4) else Color(0xff9facdc),
+                    modifier = Modifier.clickable {
+                        selectedIcon = "person"
+                        onPersonClick()
+                    }
+                )
             }
         }
     }
