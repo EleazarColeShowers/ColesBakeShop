@@ -93,23 +93,30 @@ fun CartPage(
 ) {
     val context= LocalContext.current
     val searchQuery = remember { mutableStateOf("") }
+    val currentScreen = remember { mutableStateOf("cart") }
     val navController = rememberNavController()
 
     Scaffold(
         bottomBar = {
             BottomBar(
-                Modifier
-                    .fillMaxWidth(),
+                Modifier.fillMaxWidth(),
+                currentScreen = currentScreen.value,
                 onHomeClick = {
-                    val intent= Intent(context,MainActivity::class.java )
+                    currentScreen.value = "home"
+                    val intent = Intent(context, MainActivity::class.java)
                     context.startActivity(intent)
                 },
                 onCartClick = {
-                    val intent= Intent(context,CartActivity::class.java )
+                    currentScreen.value = "cart"
+                    val intent = Intent(context, CartActivity::class.java)
                     context.startActivity(intent)
                 },
-                onMailClick = { /* Handle Mail navigation */ },
-                onPersonClick = { /* Handle profile navigation */ },
+                onMailClick = {
+                    currentScreen.value = "mail"
+                },
+                onPersonClick = {
+                    currentScreen.value = "person"
+                }
             )
         }
     ) { innerPadding ->

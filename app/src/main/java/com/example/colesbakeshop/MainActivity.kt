@@ -85,24 +85,31 @@ fun HomePage() {
     val searchQuery = remember { mutableStateOf("") }
     val navController = rememberNavController()
     val selectedCategory = remember { mutableStateOf("Cakes") }
+    val currentScreen = remember { mutableStateOf("home") }
     val context= LocalContext.current
 
     Scaffold(
         bottomBar = {
             BottomBar(
-                Modifier
-                    .fillMaxWidth(),
+                Modifier.fillMaxWidth(),
+                currentScreen = currentScreen.value,
                 onHomeClick = {
-                    val intent= Intent(context,MainActivity::class.java )
+                    currentScreen.value = "home"
+                    val intent = Intent(context, MainActivity::class.java)
                     context.startActivity(intent)
                 },
                 onCartClick = {
-                    val intent= Intent(context,CartActivity::class.java )
+                    currentScreen.value = "cart"
+                    val intent = Intent(context, CartActivity::class.java)
                     context.startActivity(intent)
                 },
-                onMailClick = { /* Handle Mail navigation */ },
-                onPersonClick = { /* Handle profile navigation */ },
-                )
+                onMailClick = {
+                    currentScreen.value = "mail"
+                },
+                onPersonClick = {
+                    currentScreen.value = "person"
+                }
+            )
         }
     ) { innerPadding ->
         Column(
@@ -131,16 +138,8 @@ fun HomePage() {
                     "Dessert" -> DessertPage(navController, searchQuery.value)
                     "Pastries" -> PastriesPage(navController, searchQuery.value)
                 }
-
-                Spacer(modifier = Modifier.height(28.dp))
-                Spacer(modifier = Modifier.height(29.dp))
             }
 
-//            NavHost(navController = navController, startDestination = "Cake") {
-//                composable("Cake") { CakePage(navController, searchQuery.value) }
-//                composable("Dessert") { DessertPage(navController, searchQuery.value) }
-//                composable("Pastries") { PastriesPage(navController, searchQuery.value) }
-//            }
         }
     }
 }
@@ -605,6 +604,7 @@ fun PastriesItem(painter: Painter, text:String, price: String) {
 @Composable
 fun BottomBar(
     modifier: Modifier = Modifier,
+    currentScreen: String, // Pass the current screen identifier
     onHomeClick: () -> Unit,
     onCartClick: () -> Unit,
     onMailClick: () -> Unit,
@@ -614,9 +614,6 @@ fun BottomBar(
     val cart = painterResource(id = R.drawable.carticon)
     val mail = painterResource(id = R.drawable.mail)
     val person = painterResource(id = R.drawable.person)
-
-    // State to track the selected icon
-    var selectedIcon by remember { mutableStateOf("home") }
 
     Column(
         Modifier
@@ -642,36 +639,32 @@ fun BottomBar(
                 Icon(
                     painter = home,
                     contentDescription = "Home Icon",
-                    tint = if (selectedIcon == "home") Color(0xFFFF91A4) else Color(0xff9facdc),
+                    tint = if (currentScreen == "home") Color(0xFFFF91A4) else Color(0xff9facdc),
                     modifier = Modifier.clickable {
-                        selectedIcon = "home"
                         onHomeClick()
                     }
                 )
                 Icon(
                     painter = cart,
                     contentDescription = "Cart Icon",
-                    tint = if (selectedIcon == "cart") Color(0xFFFF91A4) else Color(0xff9facdc),
+                    tint = if (currentScreen == "cart") Color(0xFFFF91A4) else Color(0xff9facdc),
                     modifier = Modifier.clickable {
-                        selectedIcon = "cart"
                         onCartClick()
                     }
                 )
                 Icon(
                     painter = mail,
                     contentDescription = "Mail Icon",
-                    tint = if (selectedIcon == "mail") Color(0xFFFF91A4) else Color(0xff9facdc),
+                    tint = if (currentScreen == "mail") Color(0xFFFF91A4) else Color(0xff9facdc),
                     modifier = Modifier.clickable {
-                        selectedIcon = "mail"
                         onMailClick()
                     }
                 )
                 Icon(
                     painter = person,
                     contentDescription = "Person Icon",
-                    tint = if (selectedIcon == "person") Color(0xFFFF91A4) else Color(0xff9facdc),
+                    tint = if (currentScreen == "person") Color(0xFFFF91A4) else Color(0xff9facdc),
                     modifier = Modifier.clickable {
-                        selectedIcon = "person"
                         onPersonClick()
                     }
                 )
