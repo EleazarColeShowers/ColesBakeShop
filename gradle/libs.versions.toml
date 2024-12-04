@@ -12,6 +12,7 @@ activityKtx = "1.9.3"
 navigationCompose = "2.8.4"
 googleGmsGoogleServices = "4.4.2"
 firebaseAuth = "23.1.0"
+playServicesAuth = "21.2.0"
 room = "2.6.1"
 roomCompiler = "2.6.1"
 runtimeLivedata = "1.7.5"
@@ -43,6 +44,7 @@ androidx-room-runtime = { group = "androidx.room", name = "room-runtime", versio
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedata" }
+play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

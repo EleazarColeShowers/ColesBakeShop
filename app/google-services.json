@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "185675079993",
+    "project_id": "cole-sbakeshop",
+    "storage_bucket": "cole-sbakeshop.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185675079993:android:457ab9bd02aa2cb9ab48e8",
+        "android_client_info": {
+          "package_name": "com.example.colesbakeshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "185675079993-tv185noc5vc0pkv42gqgg2j5l5r6q74q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.colesbakeshop",
+            "certificate_hash": "ed23b079f52ebea7fa877211667cfcef61ea3651"
+          }
+        },
+        {
+          "client_id": "185675079993-o041n31j2ag6tq9pr1ol9pkd6dipevv6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOwoQFEqxJh3hWhmFz5pK_8Fi4GlSYM98"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "185675079993-o041n31j2ag6tq9pr1ol9pkd6dipevv6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
