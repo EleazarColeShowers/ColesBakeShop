@@ -119,7 +119,7 @@ fun LogInPage(){
             FirebaseAuth.getInstance().signInWithCredential(credential)
                 .addOnCompleteListener { authTask ->
                     if (authTask.isSuccessful) {
-                        Toast.makeText(context, "Firebase Auth Success", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "You have successfully logged in", Toast.LENGTH_SHORT).show()
                         val intent = Intent(context, MainActivity::class.java)
                         context.startActivity(intent)
                     } else {

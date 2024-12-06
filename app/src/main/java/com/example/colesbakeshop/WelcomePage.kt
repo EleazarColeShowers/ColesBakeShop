@@ -158,6 +158,7 @@ fun Welcome(){
             )
         }
         Spacer(modifier = Modifier.height(21.dp))
+        //TODO: FIX SIGNUP NOT DISPLAYING ON PHYSICAL DEVICE"
         Column(
             modifier= Modifier
                 .width(245.dp)
