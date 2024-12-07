@@ -31,6 +31,7 @@
         <activity android:name=".SignUpActivity"/>
         <activity android:name=".LogInActivity"/>
         <activity android:name=".CartActivity"/>
+        <activity android:name=".MailActivity"/>
     </application>
 
 </manifest>
