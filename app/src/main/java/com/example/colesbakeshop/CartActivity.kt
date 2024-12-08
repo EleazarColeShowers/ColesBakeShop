@@ -113,6 +113,8 @@ fun CartPage(
                 },
                 onMailClick = {
                     currentScreen.value = "mail"
+                    val intent = Intent(context, MailActivity::class.java)
+                    context.startActivity(intent)
                 },
                 onPersonClick = {
                     currentScreen.value = "person"
