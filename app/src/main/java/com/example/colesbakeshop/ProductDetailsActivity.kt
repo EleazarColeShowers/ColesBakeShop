@@ -45,6 +45,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
+import androidx.room.Room
+import com.example.colesbakeshop.data.Order
+import com.example.colesbakeshop.data.OrderDatabase
+import com.example.colesbakeshop.data.OrderRepository
+import com.example.colesbakeshop.data.OrderViewModel
+import com.example.colesbakeshop.data.OrderViewModelFactory
 import com.example.colesbakeshop.ui.theme.ColesBakeShopTheme
 import kotlin.text.*
 
@@ -62,11 +70,25 @@ class ProductDetailsActivity : androidx.activity.ComponentActivity() {
                         modifier= Modifier.verticalScroll(rememberScrollState()),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
+                        val context = LocalContext.current
+                        val database = Room.databaseBuilder(
+                            context.applicationContext,
+                            OrderDatabase::class.java,
+                            "app_database"
+                        ).build()
+                        val repository = OrderRepository(database.orderDao())
+                        val orderViewModel = remember {
+                            ViewModelProvider(
+                                context as ViewModelStoreOwner,
+                                OrderViewModelFactory(repository)
+                            )[OrderViewModel::class.java]
+                        }
                         ProductDetailsScreen(
                             itemName = intent.getStringExtra("itemName") ?: "",
                             itemPrice = intent.getStringExtra("itemPrice") ?: "",
                             itemDescription = intent.getStringExtra("itemDescription") ?: "",
-                            itemImage = intent.getIntExtra("itemImage", R.drawable.carrot) // Replace with a default image if necessary
+                            itemImage = intent.getIntExtra("itemImage", R.drawable.carrot),
+                            viewModel = orderViewModel
                         )
                     }
                 }
@@ -81,7 +103,9 @@ fun ProductDetailsScreen(
     itemName: String,
     itemPrice: String,
     itemDescription: String,
-    itemImage: Int
+    itemImage: Int,
+    viewModel: OrderViewModel
+
 ) {
     val context = LocalContext.current as? Activity
     val returnArrow = painterResource(id = R.drawable.returnarrow)
@@ -245,6 +269,8 @@ fun ProductDetailsScreen(
                             putExtra("itemQuantity", quantity)
                             putExtra("itemImage", itemImage)
                         }
+                        viewModel.insert(Order(itemName = itemName, itemPrice = itemPrice, itemDescription = itemDescription, itemImage = itemImage))
+
                         context?.startActivity(intent)
                     },
                 horizontalAlignment = Alignment.CenterHorizontally,

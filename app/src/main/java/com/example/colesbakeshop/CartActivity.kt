@@ -130,7 +130,7 @@ fun CartPage(
         ) {
             WelcomeBar()
             Spacer(modifier = Modifier.height(14.dp))
-            viewModel.insert(Order(itemName = itemName, itemPrice = itemPrice, itemDescription = itemDescription, itemImage = itemImage))
+//            viewModel.insert(Order(itemName = itemName, itemPrice = itemPrice, itemDescription = itemDescription, itemImage = itemImage))
 
             SearchBar(
                 hint = "Search My Order History",
