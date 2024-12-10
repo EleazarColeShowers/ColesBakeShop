@@ -157,9 +157,9 @@ fun WelcomeBar() {
     Box(
         modifier = Modifier
             .fillMaxWidth(0.9f)
-            .height(127.dp)
+            .height(130.dp)
             .padding(top = 20.dp)
-            .background(color = Color.Transparent, shape = RoundedCornerShape(8.dp))
+            .background(color = Color.Transparent, shape = RoundedCornerShape(12.dp))
     ) {
         Image(
             painter = painterResource(id = R.drawable.carrot),
@@ -167,7 +167,7 @@ fun WelcomeBar() {
             modifier = Modifier
                 .fillMaxSize()
                 .align(Alignment.Center)
-                .clip(RoundedCornerShape(8.dp)),
+                .clip(RoundedCornerShape(12.dp)),
             contentScale = ContentScale.Crop
         )
 
