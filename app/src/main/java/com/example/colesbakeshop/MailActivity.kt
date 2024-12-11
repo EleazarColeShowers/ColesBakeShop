@@ -103,6 +103,8 @@ fun MailPage(
                 },
                 onPersonClick = {
                     currentScreen.value = "person"
+                    val intent = Intent(context, ProfileActivity::class.java)
+                    context.startActivity(intent)
                 }
             )
         }

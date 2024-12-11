@@ -118,6 +118,8 @@ fun CartPage(
                 },
                 onPersonClick = {
                     currentScreen.value = "person"
+                    val intent = Intent(context, ProfileActivity::class.java)
+                    context.startActivity(intent)
                 }
             )
         }
@@ -235,7 +237,7 @@ fun OrderCard(order: Order) {
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Total: ${order.orderNumber}",
+                    text = order.orderNumber,
                     fontFamily = poppinsRegular,
                     style = TextStyle(
                         fontSize = 12.sp,
