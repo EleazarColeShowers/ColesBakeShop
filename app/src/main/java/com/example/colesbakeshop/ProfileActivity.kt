@@ -33,7 +33,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.colesbakeshop.ui.theme.ColesBakeShopTheme
@@ -116,6 +119,9 @@ fun ProfilePage() {
 fun ProfileHeader(){
     val context = LocalContext.current as? Activity
     val returnArrow = painterResource(id = R.drawable.returnarrow)
+    val poppinsBold= FontFamily(
+        Font(R.font.poppinsbold)
+    )
     Column (
         modifier= Modifier
             .fillMaxSize()
@@ -169,6 +175,85 @@ fun ProfileHeader(){
                         fontWeight = FontWeight.SemiBold,
                         color = Color.Black,
                     )
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(14.dp))
+        Text(
+            text = "Account",
+            fontFamily = FontFamily(Font(R.font.poppinsbold)),
+            style = TextStyle(fontSize = 15.sp),
+            textAlign = TextAlign.Start,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(13.dp))
+        Column(
+            modifier = Modifier
+                .fillMaxWidth(0.9f)
+                .background(color = Color.White, shape = RoundedCornerShape(16.dp))
+                .padding(8.dp)
+        ){
+            Row(
+                modifier = Modifier.fillMaxWidth()
+                    .height(45.dp)
+                    .border(width = 1.dp, shape = RoundedCornerShape(16.dp), color = Color(0xff9facdc)),
+                        verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Customer Support",
+                    style = TextStyle(fontSize = 13.sp),
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(horizontal = 15.dp)
+
+                )
+            }
+            Spacer(modifier = Modifier.height(25.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth()
+                    .height(45.dp)
+                    .border(width = 1.dp, shape = RoundedCornerShape(16.dp), color = Color(0xff9facdc)),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Privacy Policy",
+                    style = TextStyle(fontSize = 13.sp),
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(horizontal = 15.dp)
+
+                )
+            }
+            Spacer(modifier = Modifier.height(25.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth()
+                    .height(45.dp)
+                    .border(width = 1.dp, shape = RoundedCornerShape(16.dp), color = Color(0xff9facdc)),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Payment Methods",
+                    style = TextStyle(fontSize = 13.sp),
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(horizontal = 15.dp)
+
+                )
+            }
+            Spacer(modifier = Modifier.height(25.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth()
+                    .height(45.dp)
+                    .border(width = 1.dp, shape = RoundedCornerShape(16.dp), color = Color(0xff9facdc)),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Order History",
+                    style = TextStyle(fontSize = 13.sp),
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(horizontal = 15.dp)
+
                 )
             }
         }

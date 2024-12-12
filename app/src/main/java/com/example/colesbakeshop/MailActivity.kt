@@ -78,7 +78,7 @@ fun MailPage(
 ) {
     val context= LocalContext.current
     val searchQuery = remember { mutableStateOf("") }
-    val currentScreen = remember { mutableStateOf("cart") }
+    val currentScreen = remember { mutableStateOf("mail") }
     val navController = rememberNavController()
 
     Scaffold(
