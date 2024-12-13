@@ -330,7 +330,7 @@ fun CakePage(navController: NavController, searchQuery: String) {
         CakeData("Basket Cake", "₦40,000", R.drawable.basketcake),
         CakeData("Butter Icing Cake", "₦60,000", R.drawable.buttericingcake),
         CakeData("Top Forward Cake", "₦35,000", R.drawable.topforwardcake),
-        CakeData("Whipped Cream Cake", "₦60,000", R.drawable.whippedcreamcake),
+        CakeData("Love-Shaped Cake", "₦60,000", R.drawable.lovecake),
         CakeData("Customized Cake", "₦50,000", R.drawable.customizedcake),
         CakeData("Floral Butter Cream Cake", "₦30,000", R.drawable.floralbuttercream),
         CakeData("Classic Cream Cake", "₦55,000", R.drawable.classiccreamcake),
@@ -459,7 +459,10 @@ fun DessertPage(navController: NavController, searchQuery: String) {
                     DessertItem(
                         painter = painterResource(id = dessert.imageResId),
                         text = dessert.name,
-                        price = dessert.price
+                        price = dessert.price,
+                        description = "A sweet mouth-watering dessert!",
+                        navController = navController,
+                        imageResId = dessert.imageResId
                     )
                 }
                 if (dessertRow.size < 2) {
@@ -472,7 +475,8 @@ fun DessertPage(navController: NavController, searchQuery: String) {
 data class DessertData(val name: String, val price: String, val imageResId: Int)
 
 @Composable
-fun DessertItem(painter: Painter, text:String, price: String) {
+fun DessertItem(painter: Painter, text:String, price: String, navController: NavController, description: String, imageResId: Int) {
+    val context= LocalContext.current
     Column(
         modifier = Modifier
             .width(130.dp)
@@ -485,6 +489,15 @@ fun DessertItem(painter: Painter, text:String, price: String) {
                 color = Color.White,
                 shape = RoundedCornerShape(12.dp)
             )
+            .clickable {
+                val intent = Intent(context, ProductDetailsActivity::class.java).apply {
+                    putExtra("itemName", text)
+                    putExtra("itemPrice", price)
+                    putExtra("itemDescription", description)
+                    putExtra("itemImage", imageResId)
+                }
+                context.startActivity(intent)
+            }
     ) {
         Image(
             painter = painter,

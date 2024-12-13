@@ -256,6 +256,22 @@ fun ProfileHeader(){
 
                 )
             }
+            Spacer(modifier = Modifier.height(25.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth()
+                    .height(45.dp)
+                    .border(width = 1.dp, shape = RoundedCornerShape(16.dp), color = Color(0xff9facdc)),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Log Out",
+                    style = TextStyle(fontSize = 13.sp),
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(horizontal = 15.dp)
+
+                )
+            }
         }
 
     }
