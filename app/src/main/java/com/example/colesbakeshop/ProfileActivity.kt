@@ -40,6 +40,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.colesbakeshop.ui.theme.ColesBakeShopTheme
+import com.google.firebase.auth.FirebaseAuth
 
 class ProfileActivity : androidx.activity.ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,19 +53,6 @@ class ProfileActivity : androidx.activity.ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = Color.White
                 ) {
-//                    val context = LocalContext.current
-//                    val database = Room.databaseBuilder(
-//                        context.applicationContext,
-//                        OrderDatabase::class.java,
-//                        "app_database"
-//                    ).build()
-//                    val repository = OrderRepository(database.orderDao())
-//                    val orderViewModel = remember {
-//                        ViewModelProvider(
-//                            context as ViewModelStoreOwner,
-//                            OrderViewModelFactory(repository)
-//                        )[OrderViewModel::class.java]
-//                    }
                    ProfilePage()
                 }
             }
@@ -110,18 +98,19 @@ fun ProfilePage() {
                 .padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ProfileHeader()
+            ProfileFullPage()
         }
     }
 }
 
 @Composable
-fun ProfileHeader(){
+fun ProfileFullPage(){
     val context = LocalContext.current as? Activity
     val returnArrow = painterResource(id = R.drawable.returnarrow)
     val poppinsBold= FontFamily(
         Font(R.font.poppinsbold)
     )
+    val firebaseAuth = FirebaseAuth.getInstance()
     Column (
         modifier= Modifier
             .fillMaxSize()
@@ -260,7 +249,16 @@ fun ProfileHeader(){
             Row(
                 modifier = Modifier.fillMaxWidth()
                     .height(45.dp)
-                    .border(width = 1.dp, shape = RoundedCornerShape(16.dp), color = Color(0xff9facdc)),
+                    .border(width = 1.dp, shape = RoundedCornerShape(16.dp), color = Color(0xff9facdc))
+                    .clickable {
+                        // Sign out the user
+                        firebaseAuth.signOut()
+                        // Navigate to LoginActivity (or any other login screen)
+                        val intent = Intent(context, LogInActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                        context?.startActivity(intent)
+                        context?.finish() // Finish the current activity
+                    },
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
