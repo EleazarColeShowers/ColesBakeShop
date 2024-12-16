@@ -559,7 +559,10 @@ fun PastriesPage(navController: NavController, searchQuery: String) {
                     PastriesItem(
                         painter = painterResource(id = pastry.imageResId),
                         text = pastry.name,
-                        price = pastry.price
+                        price = pastry.price,
+                        navController = navController,
+                        description = "Delicious pastries you can't resist!",
+                        imageResId = pastry.imageResId
                     )
                 }
                 if (pastryRow.size < 2) {
@@ -573,7 +576,15 @@ fun PastriesPage(navController: NavController, searchQuery: String) {
 data class PastryData(val name: String, val price: String, val imageResId: Int)
 
 @Composable
-fun PastriesItem(painter: Painter, text:String, price: String) {
+fun PastriesItem(
+    painter: Painter,
+    text: String,
+    price: String,
+    navController: NavController,
+    description: String = "Delicious pastries you can't resist!",
+    imageResId: Int
+) {
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .width(130.dp)
@@ -586,6 +597,15 @@ fun PastriesItem(painter: Painter, text:String, price: String) {
                 color = Color.White,
                 shape = RoundedCornerShape(12.dp)
             )
+            .clickable {
+                val intent = Intent(context, ProductDetailsActivity::class.java).apply {
+                    putExtra("itemName", text)
+                    putExtra("itemPrice", price)
+                    putExtra("itemDescription", description)
+                    putExtra("itemImage", imageResId)
+                }
+                context.startActivity(intent)
+            }
     ) {
         Image(
             painter = painter,
@@ -617,6 +637,7 @@ fun PastriesItem(painter: Painter, text:String, price: String) {
         }
     }
 }
+
 
 @Composable
 fun BottomBar(
