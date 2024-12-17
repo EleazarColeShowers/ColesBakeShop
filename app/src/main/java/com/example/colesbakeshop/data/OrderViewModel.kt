@@ -1,5 +1,6 @@
 package com.example.colesbakeshop.data
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -13,6 +14,8 @@ class OrderViewModel(private val repository: OrderRepository): ViewModel() {
     fun insert(order: Order) {
         viewModelScope.launch {
             repository.insert(order)
+            Log.d("OrderViewModel", "Inserted order: ${order.itemName}")
+
         }
     }
 }

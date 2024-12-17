@@ -40,6 +40,7 @@ import androidx.room.Room
 import com.example.colesbakeshop.data.Order
 import com.example.colesbakeshop.data.OrderDatabase
 import com.example.colesbakeshop.data.OrderRepository
+import com.example.colesbakeshop.data.OrderStatus
 import com.example.colesbakeshop.data.OrderViewModel
 import com.example.colesbakeshop.data.OrderViewModelFactory
 import com.example.colesbakeshop.ui.theme.ColesBakeShopTheme
@@ -58,11 +59,13 @@ class CartActivity : androidx.activity.ComponentActivity() {
                     color = Color.White
                 ) {
                     val context = LocalContext.current
-                    val database = Room.databaseBuilder(
-                        context.applicationContext,
-                        OrderDatabase::class.java,
-                        "app_database"
-                    ).build()
+//                    val database = Room.databaseBuilder(
+//                        context.applicationContext,
+//                        OrderDatabase::class.java,
+//                        "app_database"
+//                    ).build()
+                    val database = OrderDatabase.getDatabase(context.applicationContext)
+
                     val repository = OrderRepository(database.orderDao())
                     val orderViewModel = remember {
                         ViewModelProvider(
@@ -189,10 +192,17 @@ fun OrderHistory(viewModel: OrderViewModel) {
 fun OrderCard(order: Order) {
     val poppinsRegular = FontFamily(Font(R.font.poppinsregular))
 
+    // Map order status to background color
+    val statusColor = when (order.orderStatus) {
+        OrderStatus.ONGOING -> Color(0xFFFFA500) // Orange
+        OrderStatus.DELIVERED -> Color(0xFF00FF00) // Green
+        OrderStatus.CANCELED -> Color(0xFFFF0000) // Red
+    }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(130.dp)
+            .height(150.dp) // Increased height to accommodate the new UI
             .background(color = Color.White, shape = RoundedCornerShape(16.dp))
             .padding(8.dp)
             .border(width = 1.dp, shape = RoundedCornerShape(16.dp), color = Color(0xff9facdc))
@@ -243,6 +253,21 @@ fun OrderCard(order: Order) {
                         fontSize = 12.sp,
                         fontWeight = FontWeight.SemiBold
                     )
+                )
+                Spacer(modifier = Modifier.height(17.2.dp)) // Spacer for status text
+
+                // Status UI
+                Text(
+                    text = order.orderStatus.name,
+                    fontFamily = poppinsRegular,
+                    style = TextStyle(
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    ),
+                    modifier = Modifier
+                        .background(color = statusColor, shape = RoundedCornerShape(8.dp))
+                        .padding(horizontal = 8.dp, vertical = 4.dp)
                 )
             }
         }

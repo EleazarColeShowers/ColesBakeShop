@@ -2,6 +2,7 @@ package com.example.colesbakeshop.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
 
 @Entity(tableName = "orders")
 data class Order(
@@ -10,11 +11,27 @@ data class Order(
     val itemPrice: String,
     val itemDescription: String,
     val itemImage: Int,
-    val orderNumber: String = generateOrderNumber()
+    val orderNumber: String = generateOrderNumber(),
+    val orderStatus: OrderStatus = OrderStatus.ONGOING
 )
 
-// Function to generate a unique order number
 fun generateOrderNumber(): String {
     val randomNumber = (100000..999999).random()
     return "ORN-$randomNumber"
+}
+
+enum class OrderStatus {
+    ONGOING, DELIVERED, CANCELED
+}
+
+class Converters {
+    @TypeConverter
+    fun fromOrderStatus(value: OrderStatus): String {
+        return value.name
+    }
+
+    @TypeConverter
+    fun toOrderStatus(value: String): OrderStatus {
+        return OrderStatus.valueOf(value)
+    }
 }
