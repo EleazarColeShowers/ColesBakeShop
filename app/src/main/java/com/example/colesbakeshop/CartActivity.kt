@@ -59,12 +59,12 @@ class CartActivity : androidx.activity.ComponentActivity() {
                     color = Color.White
                 ) {
                     val context = LocalContext.current
-//                    val database = Room.databaseBuilder(
-//                        context.applicationContext,
-//                        OrderDatabase::class.java,
-//                        "app_database"
-//                    ).build()
-                    val database = OrderDatabase.getDatabase(context.applicationContext)
+                    val database = Room.databaseBuilder(
+                        context.applicationContext,
+                        OrderDatabase::class.java,
+                        "app_database"
+                    ).build()
+//                    val database = OrderDatabase.getDatabase(context.applicationContext)
 
                     val repository = OrderRepository(database.orderDao())
                     val orderViewModel = remember {
@@ -194,7 +194,7 @@ fun OrderCard(order: Order) {
 
     // Map order status to background color
     val statusColor = when (order.orderStatus) {
-        OrderStatus.ONGOING -> Color(0xFFFFA500) // Orange
+        OrderStatus.ONGOING -> Color(0xFFEE7424) // Orange
         OrderStatus.DELIVERED -> Color(0xFF00FF00) // Green
         OrderStatus.CANCELED -> Color(0xFFFF0000) // Red
     }
@@ -221,7 +221,7 @@ fun OrderCard(order: Order) {
                 contentScale = ContentScale.Crop
             )
             Spacer(modifier = Modifier.width(16.dp))
-            Column {
+            Column(modifier= Modifier.padding(vertical=5.dp)) {
                 Text(
                     text = order.itemName,
                     fontFamily = poppinsRegular,
@@ -254,20 +254,22 @@ fun OrderCard(order: Order) {
                         fontWeight = FontWeight.SemiBold
                     )
                 )
-                Spacer(modifier = Modifier.height(17.2.dp)) // Spacer for status text
+                Spacer(modifier = Modifier.height(12.dp))
 
-                // Status UI
                 Text(
                     text = order.orderStatus.name,
                     fontFamily = poppinsRegular,
                     style = TextStyle(
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold,
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.SemiBold,
                         color = Color.White
                     ),
                     modifier = Modifier
                         .background(color = statusColor, shape = RoundedCornerShape(8.dp))
                         .padding(horizontal = 8.dp, vertical = 4.dp)
+                        .width(70.dp)
+                        .height(16.dp),
+                    textAlign = TextAlign.Center
                 )
             }
         }
