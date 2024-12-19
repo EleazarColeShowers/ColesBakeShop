@@ -7,13 +7,16 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -21,7 +24,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -64,7 +66,6 @@ class CartActivity : androidx.activity.ComponentActivity() {
                         OrderDatabase::class.java,
                         "app_database"
                     ).build()
-//                    val database = OrderDatabase.getDatabase(context.applicationContext)
 
                     val repository = OrderRepository(database.orderDao())
                     val orderViewModel = remember {
@@ -181,7 +182,7 @@ fun OrderHistory(viewModel: OrderViewModel) {
         } else {
             LazyColumn {
                 items(orders) { order ->
-                    OrderCard(order)
+                    OrderCard(order, viewModel)
                 }
             }
         }
@@ -189,23 +190,26 @@ fun OrderHistory(viewModel: OrderViewModel) {
 }
 
 @Composable
-fun OrderCard(order: Order) {
+fun OrderCard(order: Order, viewModel: OrderViewModel) {
     val poppinsRegular = FontFamily(Font(R.font.poppinsregular))
 
-    // Map order status to background color
     val statusColor = when (order.orderStatus) {
-        OrderStatus.ONGOING -> Color(0xFFEE7424) // Orange
-        OrderStatus.DELIVERED -> Color(0xFF00FF00) // Green
-        OrderStatus.CANCELED -> Color(0xFFFF0000) // Red
+        OrderStatus.ONGOING -> Color(0xFFEE7424)
+        OrderStatus.DELIVERED -> Color(0xFF00FF00)
+        OrderStatus.CANCELED -> Color(0xFFFF0000)
     }
+
+    val openDialog = remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(150.dp) // Increased height to accommodate the new UI
+            .height(150.dp)
             .background(color = Color.White, shape = RoundedCornerShape(16.dp))
             .padding(8.dp)
             .border(width = 1.dp, shape = RoundedCornerShape(16.dp), color = Color(0xff9facdc))
+            .clickable { openDialog.value = true }
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -273,5 +277,51 @@ fun OrderCard(order: Order) {
                 )
             }
         }
+    }
+
+    if (openDialog.value) {
+        AlertDialog(
+            onDismissRequest = { openDialog.value = false },
+            title = {
+                Text(
+                    text = "Proceed with Order?",
+                    style = TextStyle(
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 20.sp
+                    )
+                    )
+            },
+            text = {
+                Text(
+                    text = "Would you like to proceed with your order?",
+                    style = TextStyle(
+                        fontWeight = FontWeight.Light,
+                        fontSize = 15.sp
+                    )
+                )
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        openDialog.value = false
+                    }
+                ) {
+                    Text("Proceed", color = Color(0xFFFF91A4))
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        viewModel.updateOrderStatus(order.id, OrderStatus.CANCELED)
+                        openDialog.value = false
+                    }
+                ) {
+                    Text("Cancel", color = Color(0xff9facdc))
+                }
+            },
+            modifier = Modifier.background(color = Color.White, shape = RoundedCornerShape(16.dp))
+                .height(200.dp)
+
+        )
     }
 }

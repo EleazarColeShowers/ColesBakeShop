@@ -15,4 +15,7 @@ interface OrderDao {
 
     @Query("SELECT * FROM orders WHERE orderStatus = :status")
     fun getOrdersByStatus(status: OrderStatus): LiveData<List<Order>>
+
+    @Query("UPDATE orders SET orderStatus = :status WHERE orderNumber = :orderNumber")
+    fun updateOrderStatus(orderNumber: String, status: OrderStatus)
 }

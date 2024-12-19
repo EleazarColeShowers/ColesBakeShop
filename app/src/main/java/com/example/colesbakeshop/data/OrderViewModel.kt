@@ -18,6 +18,11 @@ class OrderViewModel(private val repository: OrderRepository): ViewModel() {
 
         }
     }
+    fun updateOrderStatus(orderId: Int, status: OrderStatus) {
+        viewModelScope.launch {
+            repository.updateOrderStatus(orderId.toString(), status)
+        }
+    }
 }
 
 class OrderViewModelFactory(private val repository: OrderRepository) : ViewModelProvider.Factory {

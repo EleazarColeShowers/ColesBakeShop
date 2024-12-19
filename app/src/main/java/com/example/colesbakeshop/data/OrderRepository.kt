@@ -15,4 +15,10 @@ class OrderRepository(private val orderDao: OrderDao) {
 
         }
     }
+    suspend fun updateOrderStatus(orderNumber: String, status: OrderStatus) {
+        withContext(Dispatchers.IO) {
+            orderDao.updateOrderStatus(orderNumber, status)
+            Log.d("OrderRepository", "Updated order status for order: $orderNumber to $status")
+        }
+    }
 }
