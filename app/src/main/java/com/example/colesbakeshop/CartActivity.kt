@@ -303,6 +303,7 @@ fun OrderCard(order: Order, viewModel: OrderViewModel) {
             confirmButton = {
                 TextButton(
                     onClick = {
+                        viewModel.updateOrderStatus(order.orderNumber, OrderStatus.ONGOING)
                         openDialog.value = false
                     }
                 ) {
@@ -312,7 +313,7 @@ fun OrderCard(order: Order, viewModel: OrderViewModel) {
             dismissButton = {
                 TextButton(
                     onClick = {
-                        viewModel.updateOrderStatus(order.id, OrderStatus.CANCELED)
+                        viewModel.updateOrderStatus(order.orderNumber, OrderStatus.CANCELED)
                         openDialog.value = false
                     }
                 ) {

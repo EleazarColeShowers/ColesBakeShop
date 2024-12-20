@@ -18,9 +18,9 @@ class OrderViewModel(private val repository: OrderRepository): ViewModel() {
 
         }
     }
-    fun updateOrderStatus(orderId: Int, status: OrderStatus) {
+    fun updateOrderStatus(orderNumber: String, status: OrderStatus) {
         viewModelScope.launch {
-            repository.updateOrderStatus(orderId.toString(), status)
+            repository.updateOrderStatus(orderNumber, status)
         }
     }
 }
