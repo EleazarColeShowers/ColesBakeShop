@@ -50,9 +50,6 @@ import com.example.colesbakeshop.ui.theme.ColesBakeShopTheme
 class CartActivity : androidx.activity.ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
-
         enableEdgeToEdge()
         setContent {
             ColesBakeShopTheme {
@@ -156,7 +153,7 @@ fun CartPage(
 @Composable
 fun OrderHistory(viewModel: OrderViewModel) {
     val ordersState = viewModel.allOrders.observeAsState(initial = emptyList())
-    val orders = ordersState.value
+    val orders = ordersState.value.reversed()
 
     Column(
         modifier = Modifier
@@ -201,7 +198,6 @@ fun OrderCard(order: Order, viewModel: OrderViewModel) {
 
     val openDialog = remember { mutableStateOf(false) }
     val context = LocalContext.current
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -304,7 +300,14 @@ fun OrderCard(order: Order, viewModel: OrderViewModel) {
                 TextButton(
                     onClick = {
                         viewModel.updateOrderStatus(order.orderNumber, OrderStatus.ONGOING)
-                        openDialog.value = false
+                        val intent = Intent(context, ConfirmationActivity::class.java).apply {
+                            putExtra("itemName", order.itemName)
+                            putExtra("itemPrice", order.itemPrice)
+                            putExtra("itemDescription", order.itemDescription) // Add this field in your Order class if not present
+                            putExtra("itemImage", order.itemImage)
+                        }
+                        context.startActivity(intent)
+
                     }
                 ) {
                     Text("Proceed", color = Color(0xFFFF91A4))
