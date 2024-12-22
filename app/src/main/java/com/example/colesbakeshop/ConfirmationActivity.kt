@@ -108,19 +108,37 @@ fun ConfirmationPage(
     val poppinsBold = FontFamily(Font(R.font.poppinsbold))
     val poppinsRegular = FontFamily(Font(R.font.poppinsregular))
 
-
     Scaffold(
         bottomBar = {
-            BottomBar(
-                Modifier.fillMaxWidth(),
-                currentScreen = currentScreen.value,
-                onHomeClick = { /* Navigate Home */ },
-                onCartClick = { /* Navigate Cart */ },
-                onMailClick = { /* Navigate Mail */ },
-                onPersonClick = { /* Navigate Profile */ }
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.White)
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Total: $itemPrice",
+                    fontFamily = poppinsBold,
+                    style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
+                    modifier = Modifier.weight(1f)
+                )
+                TextButton(
+                    onClick = { /* Handle checkout logic */ },
+                    modifier = Modifier
+                        .background(Color(0xFFFF91A4), shape = RoundedCornerShape(16.dp))
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                ) {
+                    Text(
+                        text = "Checkout",
+                        color = Color.White,
+                        fontFamily = poppinsBold,
+                        style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                    )
+                }
+            }
         }
-    ) { innerPadding ->
+    ){ innerPadding ->
         Column(
             Modifier
                 .fillMaxSize()
@@ -193,41 +211,3 @@ fun ConfirmationPage(
     }
 }
 
-@Composable
-fun OrderConfirmation(order: Order) {
-    val poppinsRegular = FontFamily(Font(R.font.poppinsregular))
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-            .background(color = Color.White, shape = RoundedCornerShape(16.dp))
-            .border(width = 1.dp, shape = RoundedCornerShape(16.dp), color = Color(0xff9facdc))
-            .padding(16.dp)
-    ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Image(
-                painter = painterResource(id = order.itemImage),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(100.dp)
-                    .clip(RoundedCornerShape(16.dp)),
-                contentScale = ContentScale.Crop
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            Column {
-                Text(
-                    text = order.itemName,
-                    fontFamily = poppinsRegular,
-                    style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "Price: ${order.itemPrice}",
-                    fontFamily = poppinsRegular,
-                    style = TextStyle(fontSize = 14.sp)
-                )
-            }
-        }
-    }
-}
