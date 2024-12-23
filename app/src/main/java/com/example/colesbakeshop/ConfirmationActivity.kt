@@ -8,9 +8,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,6 +23,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -110,31 +114,39 @@ fun ConfirmationPage(
 
     Scaffold(
         bottomBar = {
-            Row(
+            Card(
+                elevation = CardDefaults.cardElevation(defaultElevation = 8.dp), // Use CardDefaults for elevation
+                shape = RoundedCornerShape(16.dp), // Optional: Rounded corners
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color.White)
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
+                    .padding(8.dp) // Padding around the card
             ) {
-                Text(
-                    text = "Total: $itemPrice",
-                    fontFamily = poppinsBold,
-                    style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
-                    modifier = Modifier.weight(1f)
-                )
-                TextButton(
-                    onClick = { /* Handle checkout logic */ },
+                Row(
                     modifier = Modifier
-                        .background(Color(0xFFFF91A4), shape = RoundedCornerShape(16.dp))
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                        .fillMaxWidth()
+                        .background(Color.White) // Background color for the Row
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Checkout",
-                        color = Color.White,
+                        text = "Total: $itemPrice",
                         fontFamily = poppinsBold,
-                        style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                        style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
+                        modifier = Modifier.weight(1f)
                     )
+                    TextButton(
+                        onClick = { /* Handle checkout logic */ },
+                        modifier = Modifier
+                            .background(Color(0xFFFF91A4), shape = RoundedCornerShape(16.dp))
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                    ) {
+                        Text(
+                            text = "Checkout",
+                            color = Color.White,
+                            fontFamily = poppinsBold,
+                            style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                        )
+                    }
                 }
             }
         }
@@ -170,42 +182,49 @@ fun ConfirmationPage(
                 style = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
             )
             Spacer(modifier = Modifier.height(30.dp))
-            Column(
-                Modifier
+            Card(
+                elevation = CardDefaults.cardElevation(defaultElevation = 8.dp), // Apply elevation
+                shape = RoundedCornerShape(16.dp), // Rounded corners
+                modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
-                    .background(color = Color.White, shape = RoundedCornerShape(16.dp))
                     .border(width = 1.dp, shape = RoundedCornerShape(16.dp), color = Color(0xff9facdc))
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Image(
-                    painter = painterResource(id = itemImage),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(150.dp)
-                        .clip(RoundedCornerShape(16.dp)),
-                    contentScale = ContentScale.Crop
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = itemName,
-                    fontFamily = poppinsBold,
-                    style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "Price: $itemPrice",
-                    fontFamily = poppinsRegular,
-                    style = TextStyle(fontSize = 16.sp)
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = itemDescription,
-                    fontFamily = poppinsRegular,
-                    style = TextStyle(fontSize = 14.sp),
-                    textAlign = TextAlign.Center
-                )
+                Column(
+                    Modifier
+                        .fillMaxWidth()
+                        .background(color = Color.White, shape = RoundedCornerShape(16.dp)) // Background for the column
+                        .padding(16.dp), // Padding inside the column
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Image(
+                        painter = painterResource(id = itemImage),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(150.dp)
+                            .clip(RoundedCornerShape(16.dp)),
+                        contentScale = ContentScale.Crop
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = itemName,
+                        fontFamily = poppinsBold,
+                        style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Price: $itemPrice",
+                        fontFamily = poppinsRegular,
+                        style = TextStyle(fontSize = 16.sp)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = itemDescription,
+                        fontFamily = poppinsRegular,
+                        style = TextStyle(fontSize = 14.sp),
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
         }
     }

@@ -10,6 +10,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -83,32 +86,38 @@ fun MailPage(
 
     Scaffold(
         bottomBar = {
-            BottomBar(
-                Modifier.fillMaxWidth(),
-                currentScreen = currentScreen.value,
-                onHomeClick = {
-                    currentScreen.value = "home"
-                    val intent = Intent(context, MainActivity::class.java)
-                    context.startActivity(intent)
-                },
-                onCartClick = {
-                    currentScreen.value = "cart"
-                    val intent = Intent(context, CartActivity::class.java)
-                    context.startActivity(intent)
-                },
-                onMailClick = {
-                    currentScreen.value = "mail"
-                    val intent = Intent(context, MailActivity::class.java)
-                    context.startActivity(intent)
-                },
-                onPersonClick = {
-                    currentScreen.value = "person"
-                    val intent = Intent(context, ProfileActivity::class.java)
-                    context.startActivity(intent)
-                }
-            )
+            Card(
+                elevation = CardDefaults.cardElevation(defaultElevation = 8.dp), // Apply elevation
+                shape = RoundedCornerShape(16.dp), // Optional: Rounded corners for the BottomBar
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                BottomBar(
+                    Modifier.fillMaxWidth(),
+                    currentScreen = currentScreen.value,
+                    onHomeClick = {
+                        currentScreen.value = "home"
+                        val intent = Intent(context, MainActivity::class.java)
+                        context.startActivity(intent)
+                    },
+                    onCartClick = {
+                        currentScreen.value = "cart"
+                        val intent = Intent(context, CartActivity::class.java)
+                        context.startActivity(intent)
+                    },
+                    onMailClick = {
+                        currentScreen.value = "mail"
+                        val intent = Intent(context, MailActivity::class.java)
+                        context.startActivity(intent)
+                    },
+                    onPersonClick = {
+                        currentScreen.value = "person"
+                        val intent = Intent(context, ProfileActivity::class.java)
+                        context.startActivity(intent)
+                    }
+                )
+            }
         }
-    ) { innerPadding ->
+    )  { innerPadding ->
         Column(
             Modifier
                 .fillMaxSize()
