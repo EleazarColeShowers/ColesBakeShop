@@ -49,6 +49,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
 import com.example.colesbakeshop.data.Order
@@ -83,15 +85,41 @@ class ConfirmationActivity : androidx.activity.ComponentActivity() {
                             OrderViewModelFactory(repository)
                         )[OrderViewModel::class.java]
                     }
-                    ConfirmationPage(
+                    ConfirmationAppNavigation(
                         itemName = intent.getStringExtra("itemName") ?: "Unknown Cake",
                         itemPrice = intent.getStringExtra("itemPrice") ?: "Unknown Price",
                         itemDescription = intent.getStringExtra("itemDescription") ?: "No Description",
                         itemImage = intent.getIntExtra("itemImage", R.drawable.carrot),
-                        viewModel = orderViewModel
                     )
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun ConfirmationAppNavigation(
+    itemName: String,
+    itemPrice: String,
+    itemDescription: String,
+    itemImage: Int,
+) {
+    val navController = rememberNavController()
+    NavHost(
+        navController = navController,
+        startDestination = "confirmation"
+    ) {
+        composable("confirmation") {
+            ConfirmationPage(
+                itemName,
+                itemPrice,
+                itemDescription,
+                itemImage,
+                onCheckoutClicked = { navController.navigate("checkout") }
+            )
+        }
+        composable("checkout") {
+            CheckoutFrag()
         }
     }
 }
@@ -102,7 +130,8 @@ fun ConfirmationPage(
     itemPrice: String,
     itemDescription: String,
     itemImage: Int,
-    viewModel: OrderViewModel
+    onCheckoutClicked: () -> Unit
+
 ) {
     val context = LocalContext.current
     val searchQuery = remember { mutableStateOf("") }
@@ -135,7 +164,7 @@ fun ConfirmationPage(
                         modifier = Modifier.weight(1f)
                     )
                     TextButton(
-                        onClick = { /* Handle checkout logic */ },
+                        onClick = onCheckoutClicked,
                         modifier = Modifier
                             .background(Color(0xFFFF91A4), shape = RoundedCornerShape(16.dp))
                             .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -188,12 +217,19 @@ fun ConfirmationPage(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
-                    .border(width = 1.dp, shape = RoundedCornerShape(16.dp), color = Color(0xff9facdc))
+                    .border(
+                        width = 1.dp,
+                        shape = RoundedCornerShape(16.dp),
+                        color = Color(0xff9facdc)
+                    )
             ) {
                 Column(
                     Modifier
                         .fillMaxWidth()
-                        .background(color = Color.White, shape = RoundedCornerShape(16.dp)) // Background for the column
+                        .background(
+                            color = Color.White,
+                            shape = RoundedCornerShape(16.dp)
+                        ) // Background for the column
                         .padding(16.dp), // Padding inside the column
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -230,3 +266,13 @@ fun ConfirmationPage(
     }
 }
 
+@Composable
+fun CheckoutFrag(){
+    Column(
+        Modifier.fillMaxSize()
+            .background(color = Color.Yellow)
+    ) {
+        Text(text = "This the page for payment")
+
+    }
+}
