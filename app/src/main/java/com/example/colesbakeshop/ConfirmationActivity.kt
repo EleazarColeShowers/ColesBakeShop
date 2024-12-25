@@ -23,8 +23,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -267,12 +269,70 @@ fun ConfirmationPage(
 }
 
 @Composable
-fun CheckoutFrag(){
+fun CheckoutFrag() {
     Column(
-        Modifier.fillMaxSize()
-            .background(color = Color.Yellow)
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = Color.White)
+            .padding(16.dp) // Add padding for aesthetic spacing
     ) {
-        Text(text = "This the page for payment")
+        // Centered checkout row at the top
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = "Checkout",
+            )
+        }
 
+        Spacer(modifier = Modifier.height(16.dp)) // Add space between rows
+
+        // Column for Payment Method
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "Payment Method",
+            )
+            Button(onClick = { /* Handle Payment Method action */ }) {
+                Text(text = "Select Payment Method")
+            }
+        }
+
+        // Column for Courier
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "Courier",
+            )
+            Button(onClick = { /* Handle Courier action */ }) {
+                Text(text = "Select Courier")
+            }
+        }
+
+        // Column for Phone Number
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "Phone Number",
+            )
+            Button(onClick = { /* Handle Phone Number action */ }) {
+                Text(text = "Enter Phone Number")
+            }
+        }
     }
 }
