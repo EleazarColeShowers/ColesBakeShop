@@ -1,38 +1,30 @@
 package com.example.colesbakeshop
 
-import android.content.Intent
+import android.app.Activity
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -55,10 +47,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
-import com.example.colesbakeshop.data.Order
 import com.example.colesbakeshop.data.OrderDatabase
 import com.example.colesbakeshop.data.OrderRepository
-import com.example.colesbakeshop.data.OrderStatus
 import com.example.colesbakeshop.data.OrderViewModel
 import com.example.colesbakeshop.data.OrderViewModelFactory
 import com.example.colesbakeshop.ui.theme.ColesBakeShopTheme
@@ -137,7 +127,6 @@ fun ConfirmationPage(
 ) {
     val context = LocalContext.current
     val searchQuery = remember { mutableStateOf("") }
-    val currentScreen = remember { mutableStateOf("cart") }
     val navController = rememberNavController()
     val comforter1 = FontFamily(Font(R.font.comforter1))
     val poppinsBold = FontFamily(Font(R.font.poppinsbold))
@@ -270,68 +259,165 @@ fun ConfirmationPage(
 
 @Composable
 fun CheckoutFrag() {
+    val context = LocalContext.current as? Activity
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color.White)
-            .padding(16.dp) // Add padding for aesthetic spacing
+            .padding(16.dp)
     ) {
-        // Centered checkout row at the top
+        Spacer(modifier = Modifier.height(16.dp))
         Row(
-            modifier = Modifier
+            Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp),
+                .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = "Checkout",
-            )
+
+            Column(
+                modifier = Modifier
+                    .height(30.dp)
+                    .width(160.dp)
+                    .border(
+                        width = 1.dp,
+                        color = Color(0xFFFF91A4),
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                    .background(
+                        color = Color.White,
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                    .clip(RoundedCornerShape(12.dp))
+                    .align(Alignment.CenterVertically),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "Checkout",
+                    style = TextStyle(
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color.Black,
+                    )
+                )
+            }
         }
 
-        Spacer(modifier = Modifier.height(16.dp)) // Add space between rows
+        Spacer(modifier = Modifier.height(43.dp))
 
-        // Column for Payment Method
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(0.9f)
                 .padding(vertical = 8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = "Payment Method",
             )
-            Button(onClick = { /* Handle Payment Method action */ }) {
-                Text(text = "Select Payment Method")
-            }
-        }
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = Color.White, shape = RoundedCornerShape(16.dp))
+                    .padding(8.dp)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(45.dp)
+                        .border(
+                            width = 1.dp,
+                            shape = RoundedCornerShape(16.dp),
+                            color = Color(0xff9facdc)
+                        ),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Select Payment Method",
+                        style = TextStyle(fontSize = 13.sp),
+                        textAlign = TextAlign.Start,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 15.dp)
 
-        // Column for Courier
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = "Courier",
-            )
-            Button(onClick = { /* Handle Courier action */ }) {
-                Text(text = "Select Courier")
+                    )
+                }
             }
-        }
 
-        // Column for Phone Number
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = "Phone Number",
-            )
-            Button(onClick = { /* Handle Phone Number action */ }) {
-                Text(text = "Enter Phone Number")
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+            ) {
+                Text(
+                    text = "Courier",
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = Color.White, shape = RoundedCornerShape(16.dp))
+                        .padding(8.dp)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(45.dp)
+                            .border(
+                                width = 1.dp,
+                                shape = RoundedCornerShape(16.dp),
+                                color = Color(0xff9facdc)
+                            ),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Select Courier",
+                            style = TextStyle(fontSize = 13.sp),
+                            textAlign = TextAlign.Start,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 15.dp)
+
+                        )
+                    }
+                }
+            }
+
+            // Column for Phone Number
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+            ) {
+                Text(
+                    text = "Phone Number",
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = Color.White, shape = RoundedCornerShape(16.dp))
+                        .padding(8.dp)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(45.dp)
+                            .border(
+                                width = 1.dp,
+                                shape = RoundedCornerShape(16.dp),
+                                color = Color(0xff9facdc)
+                            ),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Enter Phone Number",
+                            style = TextStyle(fontSize = 13.sp),
+                            textAlign = TextAlign.Start,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 15.dp)
+
+                        )
+                    }
+                }
             }
         }
     }

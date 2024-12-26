@@ -108,7 +108,6 @@ fun ProductDetailsScreen(
 
 ) {
     val context = LocalContext.current as? Activity
-    val returnArrow = painterResource(id = R.drawable.returnarrow)
     val add = painterResource(id = R.drawable.add)
     val reduce = painterResource(id = R.drawable.reduce)
 
@@ -133,23 +132,6 @@ fun ProductDetailsScreen(
                     .padding(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
-                Column(
-                    Modifier
-                        .size(28.dp)
-                        .clickable { context?.finish() }
-                        .background(color = Color(0xFFFF91A4), shape = RoundedCornerShape(12.dp)),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Image(
-                        painter = returnArrow,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .width(12.6.dp)
-                            .height(19.6.dp)
-                    )
-                }
-                Spacer(modifier = Modifier.weight(1f))
                 Column(
                     modifier = Modifier
                         .height(30.dp)
