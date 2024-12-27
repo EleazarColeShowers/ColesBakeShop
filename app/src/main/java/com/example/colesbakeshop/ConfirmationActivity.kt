@@ -1,6 +1,7 @@
 package com.example.colesbakeshop
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -20,6 +21,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -111,7 +113,7 @@ fun ConfirmationAppNavigation(
             )
         }
         composable("checkout") {
-            CheckoutFrag()
+            CheckoutFrag(itemPrice)
         }
     }
 }
@@ -258,98 +260,98 @@ fun ConfirmationPage(
 }
 
 @Composable
-fun CheckoutFrag() {
-    val context = LocalContext.current as? Activity
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = Color.White)
-            .padding(16.dp)
+fun CheckoutFrag(
+    itemPrice: String
     ) {
-        Spacer(modifier = Modifier.height(16.dp))
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.Center
-        ) {
-
-            Column(
-                modifier = Modifier
-                    .height(30.dp)
-                    .width(160.dp)
-                    .border(
-                        width = 1.dp,
-                        color = Color(0xFFFF91A4),
-                        shape = RoundedCornerShape(12.dp)
-                    )
-                    .background(
-                        color = Color.White,
-                        shape = RoundedCornerShape(12.dp)
-                    )
-                    .clip(RoundedCornerShape(12.dp))
-                    .align(Alignment.CenterVertically),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+    val context = LocalContext.current
+    val currentScreen = remember { mutableStateOf("cart") }
+    Scaffold(
+        bottomBar = {
+            Card(
+                elevation = CardDefaults.cardElevation(defaultElevation = 8.dp), // Apply elevation
+                shape = RoundedCornerShape(16.dp), // Optional: Rounded corners for the BottomBar
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Text(
-                    text = "Checkout",
-                    style = TextStyle(
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color.Black,
-                    )
+                BottomBar(
+                    Modifier.fillMaxWidth(),
+                    currentScreen = currentScreen.value,
+                    onHomeClick = {
+                        currentScreen.value = "home"
+                        val intent = Intent(context, MainActivity::class.java)
+                        context.startActivity(intent)
+                    },
+                    onCartClick = {
+                        currentScreen.value = "cart"
+                        val intent = Intent(context, CartActivity::class.java)
+                        context.startActivity(intent)
+                    },
+                    onMailClick = {
+                        currentScreen.value = "mail"
+                        val intent = Intent(context, MailActivity::class.java)
+                        context.startActivity(intent)
+                    },
+                    onPersonClick = {
+                        currentScreen.value = "person"
+                        val intent = Intent(context, ProfileActivity::class.java)
+                        context.startActivity(intent)
+                    }
                 )
             }
         }
-
-        Spacer(modifier = Modifier.height(43.dp))
-
+    ) { innerPadding ->
         Column(
             modifier = Modifier
-                .fillMaxWidth(0.9f)
-                .padding(vertical = 8.dp),
+                .fillMaxSize()
+                .background(color = Color.White)
+                .padding(innerPadding)
         ) {
-            Text(
-                text = "Payment Method",
-            )
-            Column(
-                modifier = Modifier
+            Spacer(modifier = Modifier.height(20.dp))
+            Row(
+                Modifier
                     .fillMaxWidth()
-                    .background(color = Color.White, shape = RoundedCornerShape(16.dp))
-                    .padding(8.dp)
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.Center
             ) {
-                Row(
+
+                Column(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(45.dp)
+                        .height(30.dp)
+                        .width(160.dp)
                         .border(
                             width = 1.dp,
-                            shape = RoundedCornerShape(16.dp),
-                            color = Color(0xff9facdc)
-                        ),
-                    verticalAlignment = Alignment.CenterVertically
+                            color = Color(0xFFFF91A4),
+                            shape = RoundedCornerShape(12.dp)
+                        )
+                        .background(
+                            color = Color.White,
+                            shape = RoundedCornerShape(12.dp)
+                        )
+                        .clip(RoundedCornerShape(12.dp))
+                        .align(Alignment.CenterVertically),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = "Select Payment Method",
-                        style = TextStyle(fontSize = 13.sp),
-                        textAlign = TextAlign.Start,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 15.dp)
-
+                        text = "Checkout",
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Color.Black,
+                        )
                     )
                 }
             }
 
+            Spacer(modifier = Modifier.height(43.dp))
+
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
+                    .fillMaxWidth(0.9f)
+                    .padding(vertical = 8.dp, horizontal = 16.dp),
+
             ) {
                 Text(
-                    text = "Courier",
+                    text = "Payment Method",
                 )
                 Column(
                     modifier = Modifier
@@ -369,7 +371,7 @@ fun CheckoutFrag() {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "Select Courier",
+                            text = "Select Payment Method",
                             style = TextStyle(fontSize = 13.sp),
                             textAlign = TextAlign.Start,
                             modifier = Modifier
@@ -377,47 +379,114 @@ fun CheckoutFrag() {
                                 .padding(horizontal = 15.dp)
 
                         )
+                    }
+                }
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                ) {
+                    Text(
+                        text = "Courier",
+                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(color = Color.White, shape = RoundedCornerShape(16.dp))
+                            .padding(8.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(45.dp)
+                                .border(
+                                    width = 1.dp,
+                                    shape = RoundedCornerShape(16.dp),
+                                    color = Color(0xff9facdc)
+                                ),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "Select Courier",
+                                style = TextStyle(fontSize = 13.sp),
+                                textAlign = TextAlign.Start,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 15.dp)
+
+                            )
+                        }
+                    }
+                }
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                ) {
+                    Text(
+                        text = "Phone Number",
+                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(color = Color.White, shape = RoundedCornerShape(16.dp))
+                            .padding(8.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(45.dp)
+                                .border(
+                                    width = 1.dp,
+                                    shape = RoundedCornerShape(16.dp),
+                                    color = Color(0xff9facdc)
+                                ),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "Enter Phone Number",
+                                style = TextStyle(fontSize = 13.sp),
+                                textAlign = TextAlign.Start,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 15.dp)
+
+                            )
+                        }
                     }
                 }
             }
+            Spacer(modifier = Modifier.height(32.dp))
 
-            // Column for Phone Number
-            Column(
+            Divider(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp),
+                    .padding(vertical = 16.dp),
+                color = Color.Gray,
+                thickness = 1.dp
+            )
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Phone Number",
+                    text = "Total",
+                    style = TextStyle(
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black
+                    )
                 )
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(color = Color.White, shape = RoundedCornerShape(16.dp))
-                        .padding(8.dp)
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(45.dp)
-                            .border(
-                                width = 1.dp,
-                                shape = RoundedCornerShape(16.dp),
-                                color = Color(0xff9facdc)
-                            ),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = "Enter Phone Number",
-                            style = TextStyle(fontSize = 13.sp),
-                            textAlign = TextAlign.Start,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 15.dp)
-
-                        )
-                    }
-                }
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = itemPrice,
+                    style = TextStyle(
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xff000000)
+                    )
+                )
             }
         }
     }
