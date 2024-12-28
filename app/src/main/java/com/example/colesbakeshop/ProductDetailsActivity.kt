@@ -126,6 +126,7 @@ fun ProductDetailsScreen(
                 .fillMaxSize()
                 .padding(16.dp),
         ) {
+            Spacer(modifier = Modifier.height(20.dp))
             Row(
                 Modifier
                     .fillMaxWidth()

@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -487,6 +488,25 @@ fun CheckoutFrag(
                         color = Color(0xff000000)
                     )
                 )
+                Spacer(modifier= Modifier.height(50.dp))
+                Column(
+                    modifier= Modifier
+                        .width(245.dp)
+                        .height(46.dp)
+                        .background(color = Color(0xFFFF91A4), shape = RoundedCornerShape(15.dp))
+                        .align(Alignment.CenterHorizontally),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text= "Pay Now",
+                        color= Color.White,
+                        style = TextStyle(
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Medium
+                        )
+                    )
+                }
             }
         }
     }

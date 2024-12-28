@@ -94,16 +94,15 @@ fun CartPage(
     itemImage: Int,
     viewModel: OrderViewModel
 ) {
-    val context= LocalContext.current
+    val context = LocalContext.current
     val searchQuery = remember { mutableStateOf("") }
     val currentScreen = remember { mutableStateOf("cart") }
-    val navController = rememberNavController()
 
     Scaffold(
         bottomBar = {
             Card(
-                elevation = CardDefaults.cardElevation(defaultElevation = 8.dp), // Apply elevation
-                shape = RoundedCornerShape(16.dp), // Optional: Rounded corners for the BottomBar
+                elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                shape = RoundedCornerShape(16.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 BottomBar(
@@ -149,19 +148,25 @@ fun CartPage(
                 }
             )
             Spacer(modifier = Modifier.height(28.dp))
-
             OrderHistory(
-                viewModel
+                viewModel = viewModel,
+                searchQuery = searchQuery.value
             )
             Spacer(modifier = Modifier.height(29.dp))
         }
     }
 }
 
+
 @Composable
-fun OrderHistory(viewModel: OrderViewModel) {
+fun OrderHistory(viewModel: OrderViewModel, searchQuery: String) {
     val ordersState = viewModel.allOrders.observeAsState(initial = emptyList())
     val orders = ordersState.value.reversed()
+    val filteredOrders = if (searchQuery.isEmpty()) {
+        orders
+    } else {
+        orders.filter { it.itemName.contains(searchQuery, ignoreCase = true) }
+    }
 
     Column(
         modifier = Modifier
@@ -177,16 +182,16 @@ fun OrderHistory(viewModel: OrderViewModel) {
         )
         Spacer(modifier = Modifier.height(8.dp))
 
-        if (orders.isEmpty()) {
+        if (filteredOrders.isEmpty()) {
             Text(
-                text = "No orders found.",
+                text = "No orders match your search.",
                 style = TextStyle(fontSize = 14.sp),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
         } else {
             LazyColumn {
-                items(orders) { order ->
+                items(filteredOrders) { order ->
                     OrderCard(order, viewModel)
                 }
             }
