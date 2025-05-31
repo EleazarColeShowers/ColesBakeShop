@@ -241,6 +241,10 @@ fun ProfileFullPage(){
             Row(
                 modifier = Modifier.fillMaxWidth()
                     .height(45.dp)
+                    .clickable {
+                        val intent= Intent(context, CartActivity::class.java)
+                        context?.startActivity(intent)
+                    }
                     .border(width = 1.dp, shape = RoundedCornerShape(16.dp), color = Color(0xff9facdc)),
                 verticalAlignment = Alignment.CenterVertically
             ) {

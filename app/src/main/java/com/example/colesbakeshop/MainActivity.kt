@@ -28,6 +28,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -68,7 +69,7 @@ class MainActivity : androidx.activity.ComponentActivity() {
             ColesBakeShopTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = Color(0xffffffff)
+                    color = MaterialTheme.colorScheme.onBackground
                 ) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -216,7 +217,7 @@ fun SearchBar(
             .height(50.dp)
             .shadow(4.dp, RoundedCornerShape(12.dp))
             .background(
-                Color(0xffffffff),
+                MaterialTheme.colorScheme.background,
                 shape = RoundedCornerShape(12.dp)
             )
             .border(2.dp, Color(0xff9facdc), RoundedCornerShape(18.dp))
@@ -279,7 +280,7 @@ fun Categories(selectedCategory: MutableState<String>) {
                 textAlign = TextAlign.Center,
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xff000000),
+                color = MaterialTheme.colorScheme.onBackground,
             ),
             textAlign = TextAlign.Start,
             modifier = Modifier.padding(bottom = 16.dp)
@@ -314,7 +315,7 @@ fun CategoryItem(text: String, isSelected: Boolean, onClick: () -> Unit) {
         modifier = Modifier
             .width(74.dp)
             .background(
-                color = if (isSelected) Color(0xFFFF91A4) else Color.White,
+                color = if (isSelected) Color(0xFFFF91A4) else MaterialTheme.colorScheme.background,
                 shape = RoundedCornerShape(12.dp)
             )
             .border(width = 1.dp, color = Color(0xff9facdc), shape = RoundedCornerShape(12.dp))
@@ -324,7 +325,7 @@ fun CategoryItem(text: String, isSelected: Boolean, onClick: () -> Unit) {
         Text(
             text = text,
             style = TextStyle(
-                color = if (isSelected) Color.White else Color(0xff000000),
+                color = if (isSelected) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.onBackground,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Medium
             ),
@@ -395,7 +396,7 @@ fun CakeItem(painter: Painter, text:String, price: String, navController: NavCon
                 shape = RoundedCornerShape(12.dp)
             )
             .background(
-                color = Color.White,
+                color = MaterialTheme.colorScheme.background,
                 shape = RoundedCornerShape(12.dp)
             )
             .clickable {
@@ -418,7 +419,7 @@ fun CakeItem(painter: Painter, text:String, price: String, navController: NavCon
         )
         Column(
             Modifier
-                .background(Color.White)
+                .background(MaterialTheme.colorScheme.background)
                 .height(50.dp)
         ) {
             Text(
@@ -494,7 +495,7 @@ fun DessertItem(painter: Painter, text:String, price: String, navController: Nav
                 shape = RoundedCornerShape(12.dp)
             )
             .background(
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onBackground,
                 shape = RoundedCornerShape(12.dp)
             )
             .clickable {
@@ -517,7 +518,7 @@ fun DessertItem(painter: Painter, text:String, price: String, navController: Nav
         )
         Column(
             Modifier
-                .background(Color.White)
+                .background(MaterialTheme.colorScheme.background)
                 .height(50.dp)
         ) {
             Text(
@@ -602,7 +603,7 @@ fun PastriesItem(
                 shape = RoundedCornerShape(12.dp)
             )
             .background(
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onBackground,
                 shape = RoundedCornerShape(12.dp)
             )
             .clickable {
@@ -625,7 +626,7 @@ fun PastriesItem(
         )
         Column(
             Modifier
-                .background(Color.White)
+                .background(MaterialTheme.colorScheme.background)
                 .height(50.dp)
         ) {
             Text(
@@ -665,7 +666,7 @@ fun BottomBar(
         Modifier
             .fillMaxWidth()
             .height(97.dp)
-            .background(color = Color.White),
+            .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {

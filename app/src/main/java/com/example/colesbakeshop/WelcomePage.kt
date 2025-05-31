@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -81,7 +82,7 @@ fun Welcome(){
     ){
         Text(
             text= "Cole's BakeShop",
-            color= Color.Black,
+            color= MaterialTheme.colorScheme.onBackground,
             fontFamily = comforter1,
             style = TextStyle(
                 fontSize = 34.sp,
@@ -94,7 +95,7 @@ fun Welcome(){
                 .fillMaxWidth(0.9f)
                 .height(513.dp)
                 .clip(RoundedCornerShape(16.dp))
-                .background(Color.White)
+                .background(MaterialTheme.colorScheme.onBackground)
                 .shadow(
                     elevation = 8.dp,
                     shape = RoundedCornerShape(16.dp)
@@ -142,7 +143,7 @@ fun Welcome(){
                 .background(color = Color(0xFFFF91A4), shape = RoundedCornerShape(15.dp))
                 .align(Alignment.CenterHorizontally)
                 .clickable {
-                    val intent= Intent(context, LogInActivity::class.java)
+                    val intent = Intent(context, LogInActivity::class.java)
                     context.startActivity(intent)
                 },
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -150,7 +151,7 @@ fun Welcome(){
         ) {
             Text(
                 text= "Login",
-                color= Color.White,
+                color= MaterialTheme.colorScheme.onBackground,
                 style = TextStyle(
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Medium
@@ -166,7 +167,7 @@ fun Welcome(){
                 .background(color = Color(0xff9facdc), shape = RoundedCornerShape(15.dp))
                 .align(Alignment.CenterHorizontally)
                 .clickable {
-                    val intent= Intent(context, SignUpActivity::class.java)
+                    val intent = Intent(context, SignUpActivity::class.java)
                     context.startActivity(intent)
                 },
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -174,7 +175,7 @@ fun Welcome(){
         ) {
             Text(
                 text= "Sign Up",
-                color= Color.White,
+                color= MaterialTheme.colorScheme.onBackground,
                 style = TextStyle(
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Medium
