@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -53,7 +54,7 @@ class ProfileActivity : androidx.activity.ComponentActivity() {
             ColesBakeShopTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = Color.White
+                    color = MaterialTheme.colorScheme.background
                 ) {
                    ProfilePage()
                 }
@@ -157,7 +158,7 @@ fun ProfileFullPage(){
                         shape = RoundedCornerShape(12.dp)
                     )
                     .background(
-                        color = Color.White,
+                        color = MaterialTheme.colorScheme.background,
                         shape = RoundedCornerShape(12.dp)
                     )
                     .clip(RoundedCornerShape(12.dp))
@@ -170,7 +171,7 @@ fun ProfileFullPage(){
                     style = TextStyle(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = Color.Black,
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
                 )
             }
@@ -187,7 +188,7 @@ fun ProfileFullPage(){
         Column(
             modifier = Modifier
                 .fillMaxWidth(0.9f)
-                .background(color = Color.White, shape = RoundedCornerShape(16.dp))
+                .background(color = MaterialTheme.colorScheme.background, shape = RoundedCornerShape(16.dp))
                 .padding(8.dp)
         ){
             Row(

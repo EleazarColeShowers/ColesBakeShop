@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -57,7 +58,7 @@ class CartActivity : androidx.activity.ComponentActivity() {
             ColesBakeShopTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = Color.White
+                    color = MaterialTheme.colorScheme.background
                 ) {
                     val context = LocalContext.current
                     val database = Room.databaseBuilder(
@@ -215,7 +216,7 @@ fun OrderCard(order: Order, viewModel: OrderViewModel) {
         modifier = Modifier
             .fillMaxWidth()
             .height(150.dp)
-            .background(color = Color.White, shape = RoundedCornerShape(16.dp))
+            .background(color = MaterialTheme.colorScheme.background, shape = RoundedCornerShape(16.dp))
             .padding(8.dp)
             .border(width = 1.dp, shape = RoundedCornerShape(16.dp), color = Color(0xff9facdc))
             .clickable { openDialog.value = true }
@@ -275,7 +276,7 @@ fun OrderCard(order: Order, viewModel: OrderViewModel) {
                     style = TextStyle(
                         fontSize = 10.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = Color.White
+                        color = MaterialTheme.colorScheme.background
                     ),
                     modifier = Modifier
                         .background(color = statusColor, shape = RoundedCornerShape(8.dp))
@@ -336,7 +337,8 @@ fun OrderCard(order: Order, viewModel: OrderViewModel) {
                     Text("Cancel", color = Color(0xff9facdc))
                 }
             },
-            modifier = Modifier.background(color = Color.White, shape = RoundedCornerShape(16.dp))
+            modifier = Modifier
+                .background(color = MaterialTheme.colorScheme.background, shape = RoundedCornerShape(16.dp))
                 .height(200.dp)
 
         )

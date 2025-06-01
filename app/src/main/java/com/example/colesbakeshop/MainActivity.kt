@@ -495,7 +495,7 @@ fun DessertItem(painter: Painter, text:String, price: String, navController: Nav
                 shape = RoundedCornerShape(12.dp)
             )
             .background(
-                color = MaterialTheme.colorScheme.onBackground,
+                color = MaterialTheme.colorScheme.background,
                 shape = RoundedCornerShape(12.dp)
             )
             .clickable {
@@ -603,7 +603,7 @@ fun PastriesItem(
                 shape = RoundedCornerShape(12.dp)
             )
             .background(
-                color = MaterialTheme.colorScheme.onBackground,
+                color = MaterialTheme.colorScheme.background,
                 shape = RoundedCornerShape(12.dp)
             )
             .clickable {

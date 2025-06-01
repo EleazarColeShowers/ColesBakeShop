@@ -51,7 +51,7 @@ class WelcomePage : androidx.activity.ComponentActivity() {
             ColesBakeShopTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = Color(0xffffffff)
+                    color = MaterialTheme.colorScheme.background
                 ) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,

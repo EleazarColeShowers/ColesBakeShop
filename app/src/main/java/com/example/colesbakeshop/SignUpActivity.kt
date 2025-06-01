@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -56,7 +57,7 @@ class SignUpActivity : androidx.activity.ComponentActivity() {
             ColesBakeShopTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = Color(0xffffffff)
+                    color = MaterialTheme.colorScheme.background
                 ) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -98,7 +99,7 @@ fun SignUpPage() {
     ) {
         Text(
             text = "Cole's BakeShop",
-            color = Color.Black,
+            color = MaterialTheme.colorScheme.onBackground,
             fontFamily = comforter1,
             style = TextStyle(
                 fontSize = 34.sp,
@@ -117,7 +118,7 @@ fun SignUpPage() {
                 Text(
                     text = "Welcome!",
                     fontFamily = poppinsBold,
-                    color = Color.Black,
+                    color = MaterialTheme.colorScheme.onBackground,
                     style = TextStyle(
                         fontSize = 30.sp,
                         fontWeight = FontWeight.Bold,
@@ -128,7 +129,7 @@ fun SignUpPage() {
                 Text(
                     text = "Register to continue",
                     fontFamily = poppinsRegular,
-                    color = Color.Black,
+                    color = MaterialTheme.colorScheme.onBackground,
                     style = TextStyle(
                         fontSize = 15.sp,
                         textAlign = TextAlign.Start
@@ -158,14 +159,8 @@ fun SignUpPage() {
                         color = Color(0xff9facdc),
                         shape = RoundedCornerShape(15.dp)
                     )
-                    .background(color = Color.White),
+                    .background(color = MaterialTheme.colorScheme.background),
                 shape = RoundedCornerShape(15.dp),
-//                colors = TextFieldDefaults.textFieldColors(
-//                    containerColor = Color.Transparent,
-//                    focusedIndicatorColor = Color.Transparent,
-//                    unfocusedIndicatorColor = Color.Transparent,
-//                    cursorColor = Color.Black
-//                ),
                 textStyle = TextStyle(fontSize = 14.sp)
             )
 
@@ -192,7 +187,7 @@ fun SignUpPage() {
                         color = Color(0xff9facdc),
                         shape = RoundedCornerShape(15.dp)
                     )
-                    .background(color = Color.White),
+                    .background(color = MaterialTheme.colorScheme.background),
                 shape = RoundedCornerShape(15.dp),
 //                colors = TextFieldDefaults.textFieldColors(
 //                    containerColor = Color.Transparent,
@@ -227,14 +222,8 @@ fun SignUpPage() {
                         color = Color(0xff9facdc),
                         shape = RoundedCornerShape(15.dp)
                     )
-                    .background(color = Color.White),
+                    .background(color = MaterialTheme.colorScheme.background),
                 shape = RoundedCornerShape(15.dp),
-//                colors = TextFieldDefaults.textFieldColors(
-//                    containerColor = Color.Transparent,
-//                    focusedIndicatorColor = Color.Transparent,
-//                    unfocusedIndicatorColor = Color.Transparent,
-//                    cursorColor = Color.Black
-//                ),
                 textStyle = TextStyle(fontSize = 14.sp),
                 visualTransformation = PasswordVisualTransformation()
             )
@@ -252,30 +241,37 @@ fun SignUpPage() {
                     .clickable {
                         buttonColor = Color(0xFFFF91A4)
                         if (password == confirmPassword) {
-                            auth.createUserWithEmailAndPassword(email, password)
+                            auth
+                                .createUserWithEmailAndPassword(email, password)
                                 .addOnCompleteListener { task ->
                                     if (task.isSuccessful) {
-                                        Toast.makeText(
-                                            context,
-                                            "Registration Successful!",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                                        Toast
+                                            .makeText(
+                                                context,
+                                                "Registration Successful!",
+                                                Toast.LENGTH_SHORT
+                                            )
+                                            .show()
                                         val intent = Intent(context, MainActivity::class.java)
                                         context.startActivity(intent)
                                     } else {
-                                        Toast.makeText(
-                                            context,
-                                            "Registration Failed: ${task.exception?.message}",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                                        Toast
+                                            .makeText(
+                                                context,
+                                                "Registration Failed: ${task.exception?.message}",
+                                                Toast.LENGTH_SHORT
+                                            )
+                                            .show()
                                     }
                                 }
                         } else {
-                            Toast.makeText(
-                                context,
-                                "Passwords do not match!",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Toast
+                                .makeText(
+                                    context,
+                                    "Passwords do not match!",
+                                    Toast.LENGTH_SHORT
+                                )
+                                .show()
                         }
                     },
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -326,7 +322,7 @@ fun TermsOfServiceText() {
         },
         style = TextStyle(
             fontSize = 15.sp,
-            color = Color.Black,
+            color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Start,
             fontFamily = poppinsRegular
         )
@@ -366,7 +362,7 @@ fun LoginText() {
         },
         style = TextStyle(
             fontSize = 14.sp,
-            color = Color.Black,
+            color = MaterialTheme.colorScheme.onBackground,
             fontFamily = poppinsRegular
         )
     )

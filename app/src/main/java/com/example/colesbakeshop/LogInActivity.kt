@@ -68,7 +68,7 @@ class LogInActivity : androidx.activity.ComponentActivity() {
             ColesBakeShopTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = Color(0xffffffff)
+                    color = MaterialTheme.colorScheme.background
                 ) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -138,7 +138,7 @@ fun LogInPage(){
     ) {
         Text(
             text = "Cole's BakeShop",
-            color = Color.Black,
+            color = MaterialTheme.colorScheme.onBackground,
             fontFamily = comforter1,
             style = TextStyle(
                 fontSize = 34.sp,
@@ -157,7 +157,7 @@ fun LogInPage(){
                 Text(
                     text = "Welcome back!",
                     fontFamily = poppinsBold,
-                    color = Color.Black,
+                    color = MaterialTheme.colorScheme.onBackground,
                     style = TextStyle(
                         fontSize = 30.sp,
                         fontWeight = FontWeight.Bold,
@@ -168,7 +168,7 @@ fun LogInPage(){
                 Text(
                     text = "Log in to continue",
                     fontFamily = poppinsRegular,
-                    color = Color.Black,
+                    color = MaterialTheme.colorScheme.onBackground,
                     style = TextStyle(
                         fontSize = 15.sp,
                         textAlign = TextAlign.Start
@@ -183,7 +183,7 @@ fun LogInPage(){
                 Text(
                     text = "Email",
                     fontFamily = poppinsRegular,
-                    color = Color.Black,
+                    color = MaterialTheme.colorScheme.onBackground,
                     style = TextStyle(
                         fontSize = 15.sp,
                         textAlign = TextAlign.Start
@@ -210,7 +210,7 @@ fun LogInPage(){
                             color = Color(0xff9facdc),
                             shape = RoundedCornerShape(15.dp)
                         )
-                        .background(color = Color.White),
+                        .background(color =MaterialTheme.colorScheme.background),
                     shape = RoundedCornerShape(15.dp),
                     textStyle = TextStyle(fontSize = 14.sp)
                 )
@@ -218,7 +218,7 @@ fun LogInPage(){
                 Text(
                     text = "Password",
                     fontFamily = poppinsRegular,
-                    color = Color.Black,
+                    color = MaterialTheme.colorScheme.onBackground,
                     style = TextStyle(
                         fontSize = 15.sp,
                         textAlign = TextAlign.Start
@@ -245,7 +245,7 @@ fun LogInPage(){
                             color = Color(0xff9facdc),
                             shape = RoundedCornerShape(15.dp)
                         )
-                        .background(color = Color.White),
+                        .background(color = MaterialTheme.colorScheme.background),
                     shape = RoundedCornerShape(15.dp),
                     textStyle = TextStyle(fontSize = 14.sp),
                     visualTransformation = PasswordVisualTransformation()
@@ -327,7 +327,7 @@ fun LogInPage(){
                         text = "Or login with",
                         style = TextStyle(
                             fontSize = 14.sp,
-                            color = Color.Black,
+                            color = MaterialTheme.colorScheme.onBackground,
                             fontFamily = poppinsRegular
                         ),
                         modifier = Modifier.padding(horizontal = 8.dp)
@@ -344,7 +344,7 @@ fun LogInPage(){
                     modifier= Modifier
                         .fillMaxWidth()
                         .height(38.dp)
-                        .background(color = White, shape = RoundedCornerShape(15.dp))
+                        .background(color = MaterialTheme.colorScheme.background, shape = RoundedCornerShape(15.dp))
                         .align(Alignment.CenterHorizontally)
                         .border(
                             width = 1.dp,
@@ -367,7 +367,7 @@ fun LogInPage(){
                         text = "Continue with Google",
                         style = TextStyle(
                             fontSize = 13.sp,
-                            color = Color.Black,
+                            color = MaterialTheme.colorScheme.onBackground,
                             fontFamily = poppinsRegular
                         ),
                         modifier = Modifier.padding(horizontal = 8.dp)
@@ -414,7 +414,7 @@ fun SignUpText() {
         },
         style = TextStyle(
             fontSize = 14.sp,
-            color = Color.Black,
+            color = MaterialTheme.colorScheme.onBackground,
             fontFamily = poppinsRegular
         )
     )
